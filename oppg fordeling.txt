@@ -1,0 +1,29 @@
+Fordeling:
+Mats: 
+	• landings-siden
+	• Søk 
+	• Main (kart og pop-up)
+	• Spise bakt potet 
+Christoffer: 
+	• Profil siden (mine annonser. Ikke noe annet foreløpig)
+	• Lage bakt potet
+	• Spise bakt potet
+Jacob: 
+	• Logg-inn/registrer
+	• Chat-side 
+	• Spise bakt potet
+
+NB! Den som har tid tar navigasjonsbaren
+
+Hva er aktivitet og hva er fragment:
+Aktiviteter:
+	- Landing-siden
+		○ Logg-inn
+		○ Registrer 
+		○ Landingsskjermen
+	- Main
+		○ Kart-siden 
+		○ Søk
+		○ Chat
+		○ Profil
+		* Navigasjonsbaren
