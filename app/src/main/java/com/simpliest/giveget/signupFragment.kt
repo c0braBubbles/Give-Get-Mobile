@@ -30,6 +30,14 @@ class signupFragment : Fragment() {
             transaction.commit()
         }
 
+        val bt2 = v.findViewById<Button>(R.id.createAccBtn)
+        bt2.setOnClickListener {
+            val thirdFragment = chatFragment()
+            val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
+            transaction.replace(R.id.mainlayout,thirdFragment)
+            transaction.commit()
+        }
+
         return v
     }
 
