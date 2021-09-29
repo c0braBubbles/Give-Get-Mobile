@@ -33,7 +33,7 @@
                 android:textSize="30sp"/>
         </LinearLayout>
 
-        <Button
+        <!--<Button
             android:id="@+id/toLoginBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             android:text="Create Account here!"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -83,7 +83,7 @@
         android:background="@color/whiteSmoke">
 
         <Button
-            android:id="@+id/logBtn"
+            android:id="@+id/toLoginBtn"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginStart="8dp"
@@ -100,7 +100,6 @@
             android:layout_weight="0.2"
             android:textColor="@color/almostBlue"
             android:text="Log in"
-            android:onClick="logIn"
             android:background="@drawable/cutsom_button"/>
 
         <Button
@@ -121,6 +120,7 @@
             android:layout_weight="0.2"
             android:textColor="@color/white"
             android:text="Registrer"
+            android:onClick="logIn"
             android:background="@drawable/button_blue"/>
     </LinearLayout>
 

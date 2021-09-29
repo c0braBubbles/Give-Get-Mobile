@@ -44,7 +44,7 @@
         android:id="@+id/toolbarProfil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/teal_700"
+        android:background="@color/almostBlue"
 
         tools:ignore="MissingConstraints" />
 
@@ -64,7 +64,7 @@
         android:id="@+id/backAnnonser"
         android:layout_width="47dp"
         android:layout_height="40dp"
-        android:background="@color/teal_700"
+        android:background="@color/almostBlue"
         app:layout_constraintBottom_toBottomOf="@+id/toolbarProfil"
         app:layout_constraintEnd_toEndOf="@+id/toolbarProfil"
         app:layout_constraintHorizontal_bias="0.019"

@@ -10,8 +10,7 @@
         android:id="@+id/toolbarProfil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/teal_700"
-
+        android:background="@color/almostBlue"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="-16dp"
         tools:layout_editor_absoluteY="0dp"></androidx.appcompat.widget.Toolbar>
@@ -34,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mine annonser"
+        android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="@+id/toolbarProfil"
         app:layout_constraintEnd_toEndOf="parent"

@@ -19,7 +19,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.toCreateAccBtn.setOnClickListener {
+        binding.toLoginBtn.setOnClickListener {
+            val firstFragment = loginFragment()
+            val fm: FragmentManager = supportFragmentManager
+            fm.beginTransaction().replace(R.id.mainlayout, firstFragment).commit()
+        }
+
+        /*binding.toCreateAccBtn.setOnClickListener {
             binding.toLoginBtn.visibility = View.INVISIBLE
             binding.toCreateAccBtn.visibility = View.INVISIBLE
 
@@ -36,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             val secondFragment = loginFragment()
             val fm: FragmentManager = supportFragmentManager
             fm.beginTransaction().replace(R.id.mainlayout,secondFragment).commit()
-        }
+        }*/
 
     }
 

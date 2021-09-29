@@ -4,9 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/almostGray"
     android:visibility="visible"
     tools:visibility="visible">
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/whiteSmoke"
+        app:menu="@menu/navbar"
+        android:id="@+id/navbar_top"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -25,13 +34,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/teal_700"
-
+        android:visibility="gone"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/profil_navn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:text="@string/profilnavn"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/button"
@@ -52,7 +62,7 @@
         app:layout_constraintTop_toBottomOf="@+id/profil_navn"
         tools:ignore="MissingConstraints" />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,5 +71,5 @@
         app:layout_constraintBottom_toBottomOf="@+id/toolbarProfil"
         app:layout_constraintEnd_toEndOf="@+id/toolbarProfil"
         app:layout_constraintStart_toStartOf="@+id/toolbarProfil"
-        app:layout_constraintTop_toTopOf="@+id/toolbarProfil" />
+        app:layout_constraintTop_toTopOf="@+id/toolbarProfil" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

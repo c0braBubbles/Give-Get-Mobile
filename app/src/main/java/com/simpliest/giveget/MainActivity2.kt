@@ -1,7 +1,10 @@
 package com.simpliest.giveget
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -12,11 +15,13 @@ import com.simpliest.giveget.databinding.ActivityMain2Binding
 import com.simpliest.giveget.matsfragments.Dashboard
 import com.simpliest.giveget.matsfragments.Search
 import kotlinx.android.synthetic.main.activity_main2.*
+import kotlin.properties.Delegates
 
 class MainActivity2 : AppCompatActivity() {
 
     private val dashboardFragment = Dashboard()
     private val searchFragment = Search()
+    private val fragmentChat = chatFragment()
     private lateinit var binding: ActivityMain2Binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +38,11 @@ class MainActivity2 : AppCompatActivity() {
             when(it.itemId) {
                 R.id.nav_home -> replaceFragment(dashboardFragment)
                 R.id.nav_search -> replaceFragment(searchFragment)
+                R.id.nav_chat -> replaceFragment(fragmentChat)
+                R.id.nav_profile -> {
+                    val intent = Intent(this, MinProfil::class.java)
+                    startActivity(intent)
+                }
             }
             true
         }
@@ -47,6 +57,13 @@ class MainActivity2 : AppCompatActivity() {
     private fun replaceFragment(fragment: Fragment) {
         val fm: FragmentManager = supportFragmentManager
         fm.beginTransaction().replace(R.id.secondLayout, fragment).commit()
+    }
+
+
+    // Denne her er en kopi av den i Act.1. Brukes ikke enda
+    fun profileView(view: android.view.View) {
+        val intent = Intent(this, MinProfil::class.java)
+        startActivity(intent)
     }
 
 }
