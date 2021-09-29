@@ -1,5 +1,6 @@
 package com.simpliest.giveget
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -37,5 +38,10 @@ class MainActivity : AppCompatActivity() {
             fm.beginTransaction().replace(R.id.mainlayout,secondFragment).commit()
         }
 
+    }
+
+    fun logIn(view: android.view.View) {
+        val intent = Intent(this, MainActivity2::class.java)
+        startActivity(intent)
     }
 }
