@@ -7,7 +7,8 @@
     android:orientation="vertical"
     android:background="@color/white"
     tools:ignore="HardcodedText"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/mainlayout">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -30,6 +31,30 @@
                 android:elevation="2dp"
                 android:textSize="20sp"/>
         </LinearLayout>
+
+        <Button
+            android:id="@+id/toLoginBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="64dp"
+            android:text="Login"
+            app:layout_constraintBottom_toTopOf="@+id/toCreateAccBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/toCreateAccBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="128dp"
+            android:text="Create Account here!"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
