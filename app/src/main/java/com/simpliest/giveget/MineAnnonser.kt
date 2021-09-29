@@ -5,12 +5,21 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.View.inflate
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.res.ColorStateListInflaterCompat.inflate
+import androidx.core.content.res.ComplexColorCompat.inflate
+import androidx.core.graphics.drawable.DrawableCompat.inflate
+import android.widget.AdapterView
+
+
+
 
 
 class MineAnnonser : AppCompatActivity() {
+
 
     private lateinit var myToolbar : Toolbar
 
@@ -27,12 +36,17 @@ class MineAnnonser : AppCompatActivity() {
         //Adapter kobling for listview
         listView.adapter = MyCustomAdapter(this)
 
-        //Onclick for "tilbake" knapp
-        val backButton = findViewById<ImageButton>(R.id.backAnnonser)
-        backButton.setOnClickListener {
-            val intent = Intent(this, MinProfil::class.java)
-            startActivity(intent)
-        }
+
+        // list view onclick
+        listView.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val intent = Intent(this, MinAnnonse::class.java)
+                startActivity(intent)
+                //val selectedItemText = parent.getItemAtPosition(position)
+                // textView.text = "Selected : $selectedItemText"
+            }
+
+
 
     }
 

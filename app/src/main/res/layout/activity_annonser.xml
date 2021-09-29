@@ -29,20 +29,6 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <ImageButton
-        android:id="@+id/backAnnonser"
-        android:layout_width="47dp"
-        android:layout_height="40dp"
-        android:background="@color/teal_700"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbarProfil"
-        app:layout_constraintEnd_toEndOf="@+id/toolbarProfil"
-        app:layout_constraintHorizontal_bias="0.019"
-        app:layout_constraintStart_toStartOf="@+id/toolbarProfil"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437"
-        app:srcCompat="?attr/actionModeCloseDrawable"
-        tools:ignore="MissingConstraints" />
-
     <TextView
         android:id="@+id/titleTxt"
         android:layout_width="wrap_content"

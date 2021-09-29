@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="..\:/Users/Mats Engesund/Documents/GiveGet/app/src/main/res/drawable/ic_launcher_background.xml" value="0.15" />
         <entry key="..\:/Users/Mats Engesund/Documents/GiveGet/app/src/main/res/layout/activity_annonser.xml" value="0.17572463768115942" />
         <entry key="..\:/Users/Mats Engesund/Documents/GiveGet/app/src/main/res/layout/activity_main.xml" value="0.22" />
@@ -10,6 +11,16 @@
         <entry key="..\:/Users/Mats Engesund/Documents/GiveGet/app/src/main/res/layout/chat_fragment.xml" value="0.17572463768115942" />
         <entry key="..\:/Users/Mats Engesund/Documents/GiveGet/app/src/main/res/layout/login_fragment.xml" value="0.17572463768115942" />
         <entry key="..\:/Users/Mats Engesund/Documents/GiveGet/app/src/main/res/layout/signup_fragment.xml" value="0.17572463768115942" />
+=======
+        <entry key="..\:/Users/Mats Engesund/Documents/GiveGet/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.321025641025641" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.321025641025641" />
+        <entry key="app/src/main/res/layout/activity_annonse.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_annonser.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/activity_profil.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_annonse.xml" value="0.25" />
+>>>>>>> db354b860fb67a5142432866d5d3b0a5201900f4
       </map>
     </option>
   </component>
