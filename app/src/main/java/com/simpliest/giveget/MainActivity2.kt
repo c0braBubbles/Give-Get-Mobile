@@ -40,8 +40,9 @@ class MainActivity2 : AppCompatActivity() {
                 R.id.nav_search -> replaceFragment(searchFragment)
                 R.id.nav_chat -> replaceFragment(fragmentChat)
                 R.id.nav_profile -> {
-                    val intent = Intent(this, MinProfil::class.java)
-                    startActivity(intent)
+                    //val intent = Intent(this, MinProfil::class.java)
+
+                   // startActivity(intent)
                 }
             }
             true
@@ -62,8 +63,8 @@ class MainActivity2 : AppCompatActivity() {
 
     // Denne her er en kopi av den i Act.1. Brukes ikke enda
     fun profileView(view: android.view.View) {
-        val intent = Intent(this, MinProfil::class.java)
-        startActivity(intent)
+        //val intent = Intent(this, MinProfil::class.java)
+        //startActivity(intent)
     }
 
 }

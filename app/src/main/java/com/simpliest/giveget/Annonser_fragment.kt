@@ -1,52 +1,54 @@
 package com.simpliest.giveget
+
 import android.content.Context
-import android.content.Intent
-
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
-import android.view.View.inflate
 import android.view.ViewGroup
-import android.widget.*
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.res.ColorStateListInflaterCompat.inflate
-import androidx.core.content.res.ComplexColorCompat.inflate
-import androidx.core.graphics.drawable.DrawableCompat.inflate
 import android.widget.AdapterView
+import android.widget.BaseAdapter
+import android.widget.ListView
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.FragmentTransaction
 
+class Annonser_fragment : Fragment() {
 
-
-
-
-class MineAnnonser : AppCompatActivity() {
-
-
-    private lateinit var myToolbar : Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_annonser)
 
-        myToolbar = findViewById(R.id.toolbarProfil)
+    }
+    private lateinit var myToolbar : Toolbar
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        val v = inflater.inflate(R.layout.activity_annonser, container, false)
+
+        /*
+        myToolbar = v.findViewById(R.id.toolbarProfil)
         myToolbar.title = " "
         setSupportActionBar(myToolbar)
-
-        val listView = findViewById<ListView>(R.id.ListView)
+*/
+        val listView = v.findViewById<ListView>(R.id.ListView)
 
         //Adapter kobling for listview
-        listView.adapter = MyCustomAdapter(this)
+        listView.adapter = MyCustomAdapter(requireActivity().getApplicationContext())
 
 
         // list view onclick
         listView.onItemClickListener =
             AdapterView.OnItemClickListener { parent, view, position, id ->
-                val intent = Intent(this, MinAnnonse::class.java)
-                startActivity(intent)
-                //val selectedItemText = parent.getItemAtPosition(position)
-                // textView.text = "Selected : $selectedItemText"
+                val Fragment = Annonse_fragment()
+                val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
+                transaction.replace(R.id.mainlayout,Fragment)
+                transaction.commit()
             }
 
-
+        return v
 
     }
 
@@ -79,4 +81,5 @@ class MineAnnonser : AppCompatActivity() {
             return textView
         }
     }
+
 }

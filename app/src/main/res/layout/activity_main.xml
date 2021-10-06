@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
             android:textColor="@color/whiteSmoke"
-            android:text="Hva du ønsker \nHva du ikke ønsker \nAlt på et sted"
+            android:text="Hva ønsker du? \nHva trenger du ikke lenger? \nDet finner du her!"
             android:textAlignment="center"
             android:lineHeight="70dp"
             android:letterSpacing="0.1"
