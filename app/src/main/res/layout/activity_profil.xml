@@ -8,15 +8,6 @@
     android:visibility="visible"
     tools:visibility="visible">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentTop="true"
-        android:background="@color/whiteSmoke"
-        app:menu="@menu/navbar"
-        android:id="@+id/navbar_top"
-        tools:ignore="MissingConstraints" />
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="238dp"
