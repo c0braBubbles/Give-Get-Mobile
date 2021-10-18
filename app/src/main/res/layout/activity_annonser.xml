@@ -40,6 +40,5 @@
         app:layout_constraintStart_toStartOf="@+id/toolbarProfil"
         app:layout_constraintTop_toTopOf="@+id/toolbarProfil" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
 
