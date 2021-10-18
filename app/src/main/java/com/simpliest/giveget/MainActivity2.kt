@@ -22,6 +22,7 @@ class MainActivity2 : AppCompatActivity() {
     private val dashboardFragment = Dashboard()
     private val searchFragment = Search()
     private val fragmentChat = chatFragment()
+    private val profileFragment = Profil_fragment()
     private lateinit var binding: ActivityMain2Binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,11 +40,7 @@ class MainActivity2 : AppCompatActivity() {
                 R.id.nav_home -> replaceFragment(dashboardFragment)
                 R.id.nav_search -> replaceFragment(searchFragment)
                 R.id.nav_chat -> replaceFragment(fragmentChat)
-                R.id.nav_profile -> {
-                    //val intent = Intent(this, MinProfil::class.java)
-
-                   // startActivity(intent)
-                }
+                R.id.nav_profile -> replaceFragment(profileFragment)
             }
             true
         }
