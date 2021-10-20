@@ -29,6 +29,7 @@ class MainActivity2 : AppCompatActivity() {
     private val searchFragment = Search()
     private val fragmentChat = chatFragment()
     private val profileFragment = Profil_fragment()
+
     private val addsFragment = Annonser_fragment()
 
     private lateinit var binding: ActivityMain2Binding
@@ -37,6 +38,7 @@ class MainActivity2 : AppCompatActivity() {
     public var lat = 0.0
     public var long = 0.0
 
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
@@ -66,6 +68,7 @@ class MainActivity2 : AppCompatActivity() {
         }
     }
 
+
     // metode for å hente posisjon, men alt her er bricka
     public fun checkLocationPermissions() {
         val task = fusedLocationProviderClient.lastLocation
@@ -86,6 +89,7 @@ class MainActivity2 : AppCompatActivity() {
             }
         }
     }
+
 
     private fun replaceFragment(fragment: Fragment) {
         val fm: FragmentManager = supportFragmentManager
