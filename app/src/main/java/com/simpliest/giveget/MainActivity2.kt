@@ -19,6 +19,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.material.navigation.NavigationBarItemView
 import com.simpliest.giveget.databinding.ActivityMain2Binding
 import com.simpliest.giveget.matsfragments.Dashboard
+import com.simpliest.giveget.matsfragments.MapsFragment
 import com.simpliest.giveget.matsfragments.Search
 import kotlinx.android.synthetic.main.activity_main2.*
 import kotlin.properties.Delegates
