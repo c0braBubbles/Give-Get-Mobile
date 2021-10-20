@@ -67,7 +67,7 @@ class MainActivity2 : AppCompatActivity() {
     }
 
     // metode for å hente posisjon, men alt her er bricka
-    private fun checkLocationPermissions() {
+    public fun checkLocationPermissions() {
         val task = fusedLocationProviderClient.lastLocation
 
         if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -80,7 +80,7 @@ class MainActivity2 : AppCompatActivity() {
 
         task.addOnSuccessListener {
             if(it != null) {
-                //Toast.makeText(applicationContext, "${it.latitude} ${it.longitude}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "${it.latitude} ${it.longitude}", Toast.LENGTH_SHORT).show()
                 lat = it.latitude.toDouble()
                 long = it.longitude.toDouble()
             }
