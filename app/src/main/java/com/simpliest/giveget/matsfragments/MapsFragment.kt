@@ -1,11 +1,13 @@
 package com.simpliest.giveget.matsfragments
 
+import android.app.AlertDialog
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
@@ -49,5 +51,14 @@ class MapsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
+
+        var lat: Double = secAct.lat
+        var long: Double = secAct.long
+
+        /*val builder = AlertDialog.Builder(this.context)
+        builder.setTitle("Test")
+        builder.setMessage("lat: " + lat + " long: " + long)
+        builder.show()*/
     }
+
 }

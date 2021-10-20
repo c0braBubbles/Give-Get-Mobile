@@ -1,5 +1,6 @@
 package com.simpliest.giveget
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
@@ -31,8 +32,8 @@ class MainActivity2 : AppCompatActivity() {
     private val searchFragment = Search()
     private val fragmentChat = chatFragment()
     private val profileFragment = Profil_fragment()
-
     private val addsFragment = Annonser_fragment()
+    private val newAddFragment = NyAnnonse_fragment()
 
     private lateinit var binding: ActivityMain2Binding
 
@@ -47,14 +48,10 @@ class MainActivity2 : AppCompatActivity() {
 
         // kall på posisjon stuff (bricked)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        /*findViewById<Button>(R.id.btn_test_location).setOnClickListener {
-            checkLocationPermissions()
-        }*/
 
 
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         checkLocationPermissions()
 
@@ -68,11 +65,16 @@ class MainActivity2 : AppCompatActivity() {
             }
             true
         }
+
+
+        // Setter dashboard fragmentet på (kart)
+        val fm: FragmentManager = supportFragmentManager
+        fm.beginTransaction().replace(R.id.secondLayout, dashboardFragment).commit()
     }
 
 
     // metode for å hente posisjon, men alt her er bricka
-    public fun checkLocationPermissions() {
+    fun checkLocationPermissions() {
         val task = fusedLocationProviderClient.lastLocation
 
         if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -85,15 +87,20 @@ class MainActivity2 : AppCompatActivity() {
 
         task.addOnSuccessListener {
             if(it != null) {
-                Toast.makeText(applicationContext, "${it.latitude} ${it.longitude}", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(applicationContext, "${it.latitude} ${it.longitude}", Toast.LENGTH_SHORT).show()
                 lat = it.latitude.toDouble()
                 long = it.longitude.toDouble()
+
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Test")
+                builder.setMessage("lat: " + lat + " long: " + long)
+                builder.show()
             }
         }
     }
 
 
-    private fun replaceFragment(fragment: Fragment) {
+    fun replaceFragment(fragment: Fragment) {
         val fm: FragmentManager = supportFragmentManager
         fm.beginTransaction().replace(R.id.secondLayout, fragment).commit()
     }

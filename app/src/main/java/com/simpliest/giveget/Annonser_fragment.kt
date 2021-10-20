@@ -11,6 +11,7 @@ import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 
 class Annonser_fragment : Fragment() {
@@ -18,8 +19,9 @@ class Annonser_fragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
+
+
     private lateinit var myToolbar : Toolbar
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +53,7 @@ class Annonser_fragment : Fragment() {
         return v
 
     }
+
 
     private class MyCustomAdapter(context: Context): BaseAdapter() {
 
