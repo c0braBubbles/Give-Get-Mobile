@@ -5,20 +5,22 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.navigation.NavigationBarItemView
 import com.simpliest.giveget.databinding.ActivityMain2Binding
 import com.simpliest.giveget.matsfragments.Dashboard
+import com.simpliest.giveget.matsfragments.MapsFragment
 import com.simpliest.giveget.matsfragments.Search
 import kotlinx.android.synthetic.main.activity_main2.*
 import kotlin.properties.Delegates
@@ -35,26 +37,26 @@ class MainActivity2 : AppCompatActivity() {
     private lateinit var binding: ActivityMain2Binding
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient   //posisjonting
-    public var lat = 0.0
-    public var long = 0.0
+    var lat: Double = 0.0
+    var long: Double = 0.0
 
-    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
+
 
         // kall på posisjon stuff (bricked)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         /*findViewById<Button>(R.id.btn_test_location).setOnClickListener {
             checkLocationPermissions()
         }*/
-        checkLocationPermissions()
+
 
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val fm: FragmentManager = supportFragmentManager
-        fm.beginTransaction().replace(R.id.secondLayout, dashboardFragment).commit()
+
+        checkLocationPermissions()
 
         navbar_top.setOnNavigationItemReselectedListener {
             when(it.itemId) {
@@ -84,8 +86,15 @@ class MainActivity2 : AppCompatActivity() {
         task.addOnSuccessListener {
             if(it != null) {
                 //Toast.makeText(applicationContext, "${it.latitude} ${it.longitude}", Toast.LENGTH_SHORT).show()
-                lat = it.latitude.toDouble()
-                long = it.longitude.toDouble()
+                lat = it.latitude
+                long = it.longitude
+
+                val fm: FragmentManager = supportFragmentManager
+                fm.beginTransaction().replace(R.id.secondLayout, dashboardFragment).commit()
+
+                //var noeting: TextView = findViewById(R.id.testPosLong) as TextView
+                //noeting.setText("" + long)
+
             }
         }
     }
