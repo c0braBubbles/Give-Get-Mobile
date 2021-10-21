@@ -27,7 +27,13 @@ class Annonser_fragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.activity_annonser, container, false)
-
+        val bt = v.findViewById<FloatingActionButton>(R.id.floatingActionButton3)
+        bt.setOnClickListener {
+            val secondFragment = NyAnnonse_fragment()
+            val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
+            transaction.replace(R.id.secondLayout,secondFragment)
+            transaction.commit()
+        }
         /*
         myToolbar = v.findViewById(R.id.toolbarProfil)
         myToolbar.title = " "
