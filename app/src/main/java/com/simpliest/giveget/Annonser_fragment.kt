@@ -6,13 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.BaseAdapter
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class Annonser_fragment : Fragment() {
 
@@ -29,7 +27,13 @@ class Annonser_fragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.activity_annonser, container, false)
-
+        val bt = v.findViewById<FloatingActionButton>(R.id.floatingActionButton3)
+        bt.setOnClickListener {
+            val secondFragment = NyAnnonse_fragment()
+            val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
+            transaction.replace(R.id.secondLayout,secondFragment)
+            transaction.commit()
+        }
         /*
         myToolbar = v.findViewById(R.id.toolbarProfil)
         myToolbar.title = " "
