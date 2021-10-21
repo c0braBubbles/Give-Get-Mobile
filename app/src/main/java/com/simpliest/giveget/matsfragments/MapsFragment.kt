@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import android.content.Intent
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -34,7 +35,13 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        val sydney = LatLng(59.148066, 9.692892)
+
+        val intent = Intent(this.context, MainActivity2::class.java)
+        val lat = intent.getDoubleExtra("lat_nmb", .0)
+        val long = intent.getDoubleExtra("long_nmb", .0)
+
+        val sydney = LatLng(lat, long)
+        //val sydney = LatLng(59.148066, 9.692892)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
@@ -51,9 +58,6 @@ class MapsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
-
-        var lat: Double = secAct.lat
-        var long: Double = secAct.long
 
         /*val builder = AlertDialog.Builder(this.context)
         builder.setTitle("Test")
