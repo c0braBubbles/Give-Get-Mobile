@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "283451874495",
+    "firebase_url": "https://giveget-73d6d-default-rtdb.firebaseio.com",
+    "project_id": "giveget-73d6d",
+    "storage_bucket": "giveget-73d6d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:283451874495:android:e1d8db2b39ee057115ba0a",
+        "android_client_info": {
+          "package_name": "com.simpliest.giveget"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "283451874495-7em7mf05u3tr7f5n13t30qk3cit6bvi0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDmlNRJ3DOzaGADyqCcAU7xtMVtYTXsr0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "283451874495-7em7mf05u3tr7f5n13t30qk3cit6bvi0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
