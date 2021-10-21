@@ -70,6 +70,10 @@ class MainActivity2 : AppCompatActivity() {
         // Setter dashboard fragmentet på (kart)
         val fm: FragmentManager = supportFragmentManager
         fm.beginTransaction().replace(R.id.secondLayout, dashboardFragment).commit()
+
+
+        val userID = intent.getStringArrayExtra("user_id")
+        val emailID = intent.getStringArrayExtra("email_id")
     }
 
 

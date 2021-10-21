@@ -6,13 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.BaseAdapter
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class Annonser_fragment : Fragment() {
 
@@ -39,6 +37,15 @@ class Annonser_fragment : Fragment() {
 
         //Adapter kobling for listview
         listView.adapter = MyCustomAdapter(requireActivity().getApplicationContext())
+
+
+        /*val btnTest = v.findViewById<FloatingActionButton>(R.id.floatingActionButton3)
+        btnTest.setOnClickListener {
+            val secondFragment = NyAnnonse_fragment()
+            val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
+            transaction.replace(R.id.mainlayout,secondFragment)
+            transaction.commit()
+        }*/
 
 
         // list view onclick
