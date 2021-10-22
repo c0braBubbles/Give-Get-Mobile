@@ -59,7 +59,7 @@ class Annonser_fragment : Fragment() {
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 val Fragment = Annonse_fragment()
                 val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
-                transaction.replace(R.id.mainlayout,Fragment)
+                transaction.replace(R.id.secondLayout,Fragment)
                 transaction.commit()
             }
 
