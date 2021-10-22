@@ -95,11 +95,6 @@ class MainActivity2 : AppCompatActivity() {
                 lat = it.latitude.toDouble()
                 long = it.longitude.toDouble()
 
-                val intent = Intent(this, MainActivity2::class.java)
-                intent.putExtra("lat_nmb", lat)
-                intent.putExtra("long_nmb", long)
-                startActivity(intent)
-
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("Test")
                 builder.setMessage("lat: " + lat + " long: " + long)
