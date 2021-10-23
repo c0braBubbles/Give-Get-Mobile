@@ -57,6 +57,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/titleField"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:hint="Tittel" />
@@ -73,6 +74,7 @@
         app:layout_constraintVertical_bias="0.369">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/descField"
             android:layout_width="match_parent"
             android:layout_height="177dp"
             android:hint="Beskrivelse" />
