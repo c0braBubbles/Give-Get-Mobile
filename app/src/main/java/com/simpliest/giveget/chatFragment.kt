@@ -29,7 +29,7 @@ class chatFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.chat_fragment, container, false)
-        
+
         val listView = v.findViewById<ListView>(R.id.msgList)
 
         val adapter =ArrayAdapter (
