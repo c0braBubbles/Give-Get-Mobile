@@ -5,14 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.fragment_ny_annonse_.*
 import java.util.*
 
 
@@ -42,6 +40,11 @@ class NyAnnonse_fragment : Fragment() {
         val publiserBtn = v.findViewById<Button>(R.id.publiserbtn)
         val sendTitle = v.findViewById<EditText>(R.id.titleField)
         val sendDesc = v.findViewById<EditText>(R.id.descField)
+        val radioTilbud = v.findViewById<RadioButton>(R.id.Tilbud)
+        val radioEtterspørsel = v.findViewById<RadioButton>(R.id.Etterspørsel)
+        var kategorier = "";
+
+
 
 
 
@@ -49,11 +52,24 @@ class NyAnnonse_fragment : Fragment() {
         //listener for "Publiser annonse" knappen
         publiserBtn.setOnClickListener {
             //Konstruktør for annonsene
-            data class Annonse(val tittel: String, val beskrivelse: String, val id: String)
+            data class Annonse(
+                val tittel: String, val beskrivelse: String, val id: String,
+                val kategorier: String
+            )
 
             //henter og gjør om tittel og beskrivelse til String
             val title = sendTitle.text.toString()
             val desc = sendDesc.text.toString()
+
+            //Sjekker om annonse er tilbud eller etterspørsel
+            if (radioTilbud.isChecked) {
+              kategorier = "Tilbud";
+            } else if(radioEtterspørsel.isChecked) {
+                kategorier = "Etterspørsel";
+            }
+
+
+
             //genererer en random ID, brukes som "Key" til den enkelte annonsen
             val unikID = UUID.randomUUID().toString()
 
@@ -61,7 +77,7 @@ class NyAnnonse_fragment : Fragment() {
             database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
 
                 //Lager et annonse objekt ved bruk av konstruktøren
-                val annonse = Annonse(title, desc, unikID)
+                val annonse = Annonse(title, desc, unikID, kategorier)
 
                 database.child(unikID).setValue(annonse).addOnSuccessListener {
                         sendTitle.text.clear()
