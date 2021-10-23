@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.simpliest.giveget.databinding.SignupFragmentBinding
 
 class signupFragment : Fragment() {
@@ -41,6 +43,7 @@ class signupFragment : Fragment() {
             transaction.commit()
         }
 
+        
         val bt2 = v.findViewById<Button>(R.id.createAccBtn)
         /*bt2.setOnClickListener {
             val thirdFragment = chatFragment()
@@ -48,7 +51,6 @@ class signupFragment : Fragment() {
             transaction.replace(R.id.mainlayout,thirdFragment)
             transaction.commit()
         }*/
-
 
 
         val emailFelt = v.findViewById<EditText>(R.id.editEmailField)
@@ -108,9 +110,6 @@ class signupFragment : Fragment() {
                 }
             }
         }
-
-
-
         return v
     }
 
