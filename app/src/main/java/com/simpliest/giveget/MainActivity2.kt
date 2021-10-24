@@ -5,7 +5,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -19,6 +22,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.navigation.NavigationBarItemView
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.simpliest.giveget.databinding.ActivityMain2Binding
 import com.simpliest.giveget.matsfragments.Dashboard
 import com.simpliest.giveget.matsfragments.MapsFragment
@@ -70,10 +76,6 @@ class MainActivity2 : AppCompatActivity() {
         // Setter dashboard fragmentet på (kart)
         val fm: FragmentManager = supportFragmentManager
         fm.beginTransaction().replace(R.id.secondLayout, dashboardFragment).commit()
-
-
-        val userID = intent.getStringArrayExtra("user_id")
-        val emailID = intent.getStringArrayExtra("email_id")
     }
 
 

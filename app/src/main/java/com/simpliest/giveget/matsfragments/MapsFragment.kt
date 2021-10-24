@@ -56,7 +56,7 @@ class MapsFragment : Fragment() {
 
         /*val builder = AlertDialog.Builder(this.context)
         builder.setTitle("Test")
-        builder.setMessage("lat: " + lat + " long: " + long)
+        builder.setMessage("Hei på deg")
         builder.show()*/
     }
 
