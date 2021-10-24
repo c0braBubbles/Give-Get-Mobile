@@ -18,12 +18,15 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.simpliest.giveget.MainActivity2
 import com.simpliest.giveget.R
 
 class MapsFragment : Fragment() {
 
     private val secAct = MainActivity2()
+    private lateinit var database: DatabaseReference
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -35,6 +38,22 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
+        database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
+        database.child("2433e118-e966-4139-8fca-b65bff114f28").get().addOnSuccessListener {
+            if(it.exists()) {
+                val db_lat: Double = it.child("lat").value as Double
+                val db_long: Double = it.child("long").value as Double
+
+                val marker1 = LatLng(db_lat, db_long)
+                googleMap.addMarker(MarkerOptions().position(marker1).title("Annonsetest"))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(marker1))
+                Toast.makeText(this.requireContext(), "lat: " + db_lat, Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this.requireContext(), "Ikke funnet", Toast.LENGTH_SHORT).show()
+            }
+        }.addOnFailureListener {
+            Toast.makeText(this.requireContext(), "Operasjonen failet", Toast.LENGTH_SHORT).show()
+        }
 
         val sydney = LatLng(59.148066, 9.692892)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))

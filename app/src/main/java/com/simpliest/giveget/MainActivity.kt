@@ -20,9 +20,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.toLoginBtn.setOnClickListener {
-            val firstFragment = loginFragment()
+            val toFragment = loginFragment()
             val fm: FragmentManager = supportFragmentManager
-            fm.beginTransaction().replace(R.id.mainlayout, firstFragment).commit()
+            fm.beginTransaction().replace(R.id.mainlayout, toFragment).commit()
+        }
+
+        binding.regBtn.setOnClickListener {
+            val toFragment = signupFragment()
+            val fm: FragmentManager = supportFragmentManager
+            fm.beginTransaction().replace(R.id.mainlayout, toFragment).commit()
         }
 
         /*binding.toCreateAccBtn.setOnClickListener {

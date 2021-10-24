@@ -15,7 +15,10 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.simpliest.giveget.databinding.SignupFragmentBinding
+import com.simpliest.giveget.matsfragments.User
 
 class signupFragment : Fragment() {
 
@@ -41,6 +44,7 @@ class signupFragment : Fragment() {
             transaction.commit()
         }
 
+        
         val bt2 = v.findViewById<Button>(R.id.createAccBtn)
         /*bt2.setOnClickListener {
             val thirdFragment = chatFragment()
@@ -48,7 +52,6 @@ class signupFragment : Fragment() {
             transaction.replace(R.id.mainlayout,thirdFragment)
             transaction.commit()
         }*/
-
 
 
         val emailFelt = v.findViewById<EditText>(R.id.editEmailField)
@@ -90,11 +93,29 @@ class signupFragment : Fragment() {
                                         Toast.LENGTH_SHORT
                                     ).show()
 
-                                    val intent = Intent(this.context, MainActivity2::class.java)
+                                    //Legger til resterene brukerInfo i realtime databasen
+                                    val usernameInsert = usernameFelt.text.toString()
+                                    val nameInsert = nameFelt.text.toString()
+                                    val emailInsert = emailFelt.text.toString()
+
+                                    val userInfo = User(nameInsert,usernameInsert,emailInsert)
+
+                                    FirebaseDatabase.getInstance().getReference("mobilBruker").child(
+                                        firebaseUser.uid).setValue(userInfo).addOnSuccessListener {
+                                        val intent = Intent(this.context, MainActivity2::class.java)
+                                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // hindrer brukeren å klikke seg tilbake
+                                        intent.putExtra("user_id", firebaseUser.uid)
+                                        intent.putExtra("email_id", email)
+                                        intent.putExtra("user_name", usernameInsert)
+                                        startActivity(intent)
+                                    }
+
+
+                                    /*val intent = Intent(this.context, MainActivity2::class.java)
                                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // hindrer brukeren å klikke seg tilbake
                                     intent.putExtra("user_id", firebaseUser.uid)
                                     intent.putExtra("email_id", email)
-                                    startActivity(intent)
+                                    startActivity(intent)*/
                                     //finish()
                                 } else {
                                     Toast.makeText(
@@ -108,9 +129,6 @@ class signupFragment : Fragment() {
                 }
             }
         }
-
-
-
         return v
     }
 

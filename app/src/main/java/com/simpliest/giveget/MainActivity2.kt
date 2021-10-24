@@ -46,6 +46,8 @@ class MainActivity2 : AppCompatActivity() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient   //posisjonting
     var lat: Double = 0.0
     var long: Double = 0.0
+    // Bruker ikke posisjon stuffet i denne aktiviteten lenger, men kjekt å ha her i tilfelle
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,13 +55,13 @@ class MainActivity2 : AppCompatActivity() {
 
 
         // kall på posisjon stuff (bricked)
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        //fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        //checkLocationPermissions()
 
 
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        checkLocationPermissions()
 
         navbar_top.setOnNavigationItemReselectedListener {
             when(it.itemId) {
@@ -76,6 +78,14 @@ class MainActivity2 : AppCompatActivity() {
         // Setter dashboard fragmentet på (kart)
         val fm: FragmentManager = supportFragmentManager
         fm.beginTransaction().replace(R.id.secondLayout, dashboardFragment).commit()
+
+
+        val userID = intent.getStringExtra("user_id").toString()
+        val emailID = intent.getStringExtra("email_id").toString()
+        /*val builder = AlertDialog.Builder(this)
+        builder.setTitle("Test")
+        builder.setMessage("user id: $emailID")
+        builder.show()*/
     }
 
 
@@ -94,13 +104,14 @@ class MainActivity2 : AppCompatActivity() {
         task.addOnSuccessListener {
             if(it != null) {
                 //Toast.makeText(applicationContext, "${it.latitude} ${it.longitude}", Toast.LENGTH_SHORT).show()
-                lat = it.latitude.toDouble()
-                long = it.longitude.toDouble()
+                lat = it.latitude
+                long = it.longitude
 
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("Test")
-                builder.setMessage("lat: " + lat + " long: " + long)
-                builder.show()
+                /*Toast.makeText(
+                    this,
+                    lat.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()*/
             }
         }
     }

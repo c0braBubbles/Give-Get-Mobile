@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_main2.*
 
 class Annonser_fragment : Fragment() {
 
@@ -59,7 +60,7 @@ class Annonser_fragment : Fragment() {
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 val Fragment = Annonse_fragment()
                 val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
-                transaction.replace(R.id.mainlayout,Fragment)
+                transaction.replace(R.id.secondLayout,Fragment)
                 transaction.commit()
             }
 
