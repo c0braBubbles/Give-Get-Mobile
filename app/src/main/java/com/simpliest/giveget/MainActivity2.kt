@@ -99,7 +99,10 @@ class MainActivity2 : AppCompatActivity() {
                 lat = it.latitude
                 long = it.longitude
 
-
+                val bundle = Bundle()
+                bundle.putString("users_lat", lat.toString())
+                val fragment = NyAnnonse_fragment()
+                fragment.arguments = bundle
             }
         }
     }
