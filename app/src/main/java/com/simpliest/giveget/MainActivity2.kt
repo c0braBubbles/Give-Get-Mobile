@@ -72,8 +72,12 @@ class MainActivity2 : AppCompatActivity() {
         fm.beginTransaction().replace(R.id.secondLayout, dashboardFragment).commit()
 
 
-        val userID = intent.getStringArrayExtra("user_id")
-        val emailID = intent.getStringArrayExtra("email_id")
+        val userID = intent.getStringExtra("user_id").toString()
+        val emailID = intent.getStringExtra("email_id").toString()
+        /*val builder = AlertDialog.Builder(this)
+        builder.setTitle("Test")
+        builder.setMessage("user id: $emailID")
+        builder.show()*/
     }
 
 
@@ -92,13 +96,10 @@ class MainActivity2 : AppCompatActivity() {
         task.addOnSuccessListener {
             if(it != null) {
                 //Toast.makeText(applicationContext, "${it.latitude} ${it.longitude}", Toast.LENGTH_SHORT).show()
-                lat = it.latitude.toDouble()
-                long = it.longitude.toDouble()
+                lat = it.latitude
+                long = it.longitude
 
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("Test")
-                builder.setMessage("lat: " + lat + " long: " + long)
-                builder.show()
+
             }
         }
     }

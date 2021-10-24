@@ -106,6 +106,7 @@ class signupFragment : Fragment() {
                                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // hindrer brukeren å klikke seg tilbake
                                         intent.putExtra("user_id", firebaseUser.uid)
                                         intent.putExtra("email_id", email)
+                                        intent.putExtra("user_name", usernameInsert)
                                         startActivity(intent)
                                     }
 
