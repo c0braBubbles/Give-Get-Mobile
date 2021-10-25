@@ -1,6 +1,7 @@
 package com.simpliest.giveget.matsfragments
 
 import android.app.AlertDialog
+import android.content.ContentValues.TAG
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.widget.Toast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import android.content.Intent
+import android.util.Log
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -18,10 +20,11 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.getValue
 import com.simpliest.giveget.MainActivity2
 import com.simpliest.giveget.R
+import org.w3c.dom.Comment
 
 class MapsFragment : Fragment() {
 
@@ -39,13 +42,13 @@ class MapsFragment : Fragment() {
          * user has installed Google Play services and returned to the app.
          */
         database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
-        database.child("2433e118-e966-4139-8fca-b65bff114f28").get().addOnSuccessListener {
+        /*database.child("2433e118-e966-4139-8fca-b65bff114f28").get().addOnSuccessListener {
             if(it.exists()) {
                 val db_lat: Double = it.child("lat").value as Double
                 val db_long: Double = it.child("long").value as Double
 
                 val marker1 = LatLng(db_lat, db_long)
-                googleMap.addMarker(MarkerOptions().position(marker1).title("Annonsetest"))
+                googleMap.addMarker(MarkerOptions().position(marker1).title("${it.child("beskrivelse").value}"))
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(marker1))
                 Toast.makeText(this.requireContext(), "lat: " + db_lat, Toast.LENGTH_SHORT).show()
             } else {
@@ -53,7 +56,65 @@ class MapsFragment : Fragment() {
             }
         }.addOnFailureListener {
             Toast.makeText(this.requireContext(), "Operasjonen failet", Toast.LENGTH_SHORT).show()
+        }*/
+
+        val childEventListener = object : ChildEventListener {
+            override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                Log.d(TAG, "onChildAdded:" + dataSnapshot.key!!)
+
+                // A new comment has been added, add it to the displayed list
+                //val comment = dataSnapshot.getValue<Comment>()
+                //Toast.makeText(context, dataSnapshot.getValue().toString(), Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, dataSnapshot.child("beskrivelse").value.toString(), Toast.LENGTH_SHORT).show()
+
+
+                val add_title = dataSnapshot.child("tittel").value.toString()
+                val add_lat = dataSnapshot.child("lat").value as Double
+                val add_long = dataSnapshot.child("long").value as Double
+                // ...
+                val marker1 = LatLng(add_lat, add_long)
+                googleMap.addMarker(MarkerOptions().position(marker1).title(add_title))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(marker1))
+            }
+            override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                Log.d(TAG, "onChildChanged: ${dataSnapshot.key}")
+
+                // A comment has changed, use the key to determine if we are displaying this
+                // comment and if so displayed the changed comment.
+                val newComment = dataSnapshot.getValue<Comment>()
+                val commentKey = dataSnapshot.key
+
+                // ...
+            }
+
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+                Log.d(TAG, "onChildRemoved:" + dataSnapshot.key!!)
+
+                // A comment has changed, use the key to determine if we are displaying this
+                // comment and if so remove it.
+                val commentKey = dataSnapshot.key
+
+                // ...
+            }
+
+            override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                Log.d(TAG, "onChildMoved:" + dataSnapshot.key!!)
+
+                // A comment has changed position, use the key to determine if we are
+                // displaying this comment and if so move it.
+                val movedComment = dataSnapshot.getValue<Comment>()
+                val commentKey = dataSnapshot.key
+
+                // ...
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.w(TAG, "postComments:onCancelled", databaseError.toException())
+                Toast.makeText(context, "Failed to load comments.",
+                    Toast.LENGTH_SHORT).show()
+            }
         }
+        database.addChildEventListener(childEventListener)
 
         val sydney = LatLng(59.148066, 9.692892)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
