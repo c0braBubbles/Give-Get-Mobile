@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -28,43 +28,74 @@ class chatFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.chat_fragment, container, false)
+            val v = inflater.inflate(R.layout.chat_fragment, container, false)
 
-        val listView = v.findViewById<ListView>(R.id.msgList)
+            val listView = v.findViewById<ListView>(R.id.msgList)
 
-        val adapter =ArrayAdapter (
-            requireActivity().getApplicationContext(), android.R.layout.simple_list_item_1, listenMin)
+            val adapter =ArrayAdapter (
+                requireActivity().getApplicationContext(), android.R.layout.simple_list_item_1, listenMin)
 
-        listView.setAdapter(adapter)
+            listView.setAdapter(adapter)
 
-        val sendBtn = v.findViewById<Button>(R.id.sendMsgBtn)
-        val sendTxt = v.findViewById<EditText>(R.id.writeMsgField)
+            val sendBtn = v.findViewById<Button>(R.id.sendMsgBtn)
+            val sendTxt = v.findViewById<EditText>(R.id.writeMsgField)
 
-        //Dette er listener for "send melding" knappen, i chat-vinduet
-        sendBtn.setOnClickListener {
-            //henter teksten til skrivefeltet, i chat-vinduet
-            val melding = sendTxt.text.toString()
-            //genererer en tilfeldig ID for hver melding som blir sendt av en bruker
-            val unikID = UUID.randomUUID().toString()
+            val midlertidigBrukernavn = "midlertidigBruker"
 
-
-            //Referanse til plassen hvor meldinger skal lagres
-            database = FirebaseDatabase.getInstance().getReference("mobilMelding")
-            //setter inn verdi til referansen over, i databasen
-            database.child(unikID).setValue(melding).addOnSuccessListener {
-                //Gjør dette, dersom alt går som det skal
-                listenMin.add(melding)
-                sendTxt.text.clear()
-            }.addOnFailureListener {
-                //Gjør dette, dersom det feiler
-                Toast.makeText(this.context, "Kunne ikke sende melding", Toast.LENGTH_SHORT).show()
+            val currentUserUid = FirebaseAuth.getInstance().getCurrentUser()?.getUid();
+            var currentUsername = "blank"
+            FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
+                currentUsername = it.child("username").value.toString()
             }
 
-        }
+
+            val childEventListener = object : ChildEventListener {
+                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                    val nyMld = snapshot.child("message").value.toString()
+                    val sender = snapshot.child("sender").value.toString()
+                    val receiver = snapshot.child("receiver").value.toString()
+                    listenMin.add(nyMld)
+                }
+
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            }
+
+            FirebaseDatabase.getInstance().getReference("mobilMelding").addChildEventListener(childEventListener)
+
+            sendBtn.setOnClickListener {
+                val melding = sendTxt.text.toString()
+                //genererer en tilfeldig ID for hver melding som blir sendt av en bruker
+                val unikID = UUID.randomUUID().toString()
+
+                database = FirebaseDatabase.getInstance().getReference("mobilMelding")
+                val meldingInfo = Message(melding,currentUsername,midlertidigBrukernavn)
+                database.child(unikID).setValue(meldingInfo).addOnSuccessListener {
+                    //listenMin.add(melding)
+                    sendTxt.text.clear()
+                }.addOnFailureListener {
+                    Toast.makeText(this.context, "Kunne ikke sende melding", Toast.LENGTH_SHORT).show()
+                }
+
+            }
 
 
-        // Inflate the layout for this fragment
-        return v
+            // Inflate the layout for this fragment
+            return v
     }
 
 
