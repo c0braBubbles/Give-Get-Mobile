@@ -53,15 +53,15 @@ class MapsFragment : Fragment() {
                 val add_long = dataSnapshot.child("long").value as Double
 
                 val marker1 = LatLng(add_lat, add_long)
-                googleMap.addMarker(MarkerOptions().position(marker1).title(add_title))
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(marker1))
 
+                googleMap.addMarker(MarkerOptions().position(marker1).title(add_title))
                 googleMap.setOnMarkerClickListener { marker1 ->
                     Toast.makeText(context,
                         "beskrivelse: " + add_descr,
                         Toast.LENGTH_SHORT).show()
                     true
                 }
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(marker1))
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
@@ -105,7 +105,7 @@ class MapsFragment : Fragment() {
         database.addChildEventListener(childEventListener)
 
 
-        val sydney = LatLng(59.148066, 9.692892)
+        /*val sydney = LatLng(59.148066, 9.692892)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
 
@@ -114,7 +114,7 @@ class MapsFragment : Fragment() {
             Toast.makeText(context, "onclick på markør test",
                 Toast.LENGTH_SHORT).show()
             true
-        }
+        }*/
     }
 
     override fun onCreateView(
