@@ -80,6 +80,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <!--
+
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="50dp"
@@ -92,6 +94,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/menu_btn_style"
-        tools:ignore="MissingConstraint,ImageContrastCheck"/>
+        tools:ignore="MissingConstraint,ImageContrastCheck"/> -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
