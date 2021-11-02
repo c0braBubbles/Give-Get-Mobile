@@ -41,20 +41,29 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
 
+        database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
         val childEventListener = object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d(TAG, "onChildAdded:" + dataSnapshot.key!!)
 
                 val add_title = dataSnapshot.child("tittel").value.toString()
+                val add_descr = dataSnapshot.child("beskrivelse").value.toString()
                 val add_lat = dataSnapshot.child("lat").value as Double
                 val add_long = dataSnapshot.child("long").value as Double
 
                 val marker1 = LatLng(add_lat, add_long)
                 googleMap.addMarker(MarkerOptions().position(marker1).title(add_title))
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(marker1))
+
+                googleMap.setOnMarkerClickListener { marker1 ->
+                    Toast.makeText(context,
+                        "beskrivelse: " + add_descr,
+                        Toast.LENGTH_SHORT).show()
+                    true
+                }
             }
+
             override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d(TAG, "onChildChanged: ${dataSnapshot.key}")
 
@@ -95,9 +104,17 @@ class MapsFragment : Fragment() {
         }
         database.addChildEventListener(childEventListener)
 
-        /*val sydney = LatLng(59.148066, 9.692892)
+
+        val sydney = LatLng(59.148066, 9.692892)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))*/
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
+        //tester markør-onclick DET FUNKET
+        googleMap.setOnMarkerClickListener { sydney ->
+            Toast.makeText(context, "onclick på markør test",
+                Toast.LENGTH_SHORT).show()
+            true
+        }
     }
 
     override fun onCreateView(
