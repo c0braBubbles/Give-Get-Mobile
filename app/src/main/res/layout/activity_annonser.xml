@@ -13,7 +13,7 @@
         android:background="@color/almostBlue"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="0dp"/>
+        tools:layout_editor_absoluteY="0dp" />
 
     <TextView
         android:id="@+id/NyAnnonseTxt"
@@ -28,32 +28,27 @@
         app:layout_constraintTop_toTopOf="@+id/toolbarProfil" />
 
 
-    <ListView
-        android:id="@+id/ListView"
-        android:layout_width="401dp"
-        android:layout_height="478dp"
-        android:scrollingCache="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarProfil"
-        app:layout_constraintVertical_bias="0.0">
-
-    </ListView>
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="96dp"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ListView"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_baseline_add_24"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="389dp"
+        android:layout_height="511dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbarProfil" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

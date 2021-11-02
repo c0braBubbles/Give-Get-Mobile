@@ -67,4 +67,11 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+
+        // for adding recyclerview
+        implementation 'androidx.recyclerview:recyclerview:1.2.0'
+
+        // for adding cardview
+        implementation 'androidx.cardview:cardview:1.0.0'
+
 }

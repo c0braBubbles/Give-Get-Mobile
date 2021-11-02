@@ -17,6 +17,12 @@ import com.google.firebase.database.FirebaseDatabase
 import com.simpliest.giveget.databinding.ActivityMain2Binding
 import kotlinx.android.synthetic.main.fragment_ny_annonse_.*
 import java.util.*
+import com.google.firebase.auth.FirebaseAuth
+
+import com.google.firebase.auth.FirebaseUser
+
+
+
 
 
 class NyAnnonse_fragment : Fragment() {
@@ -54,6 +60,8 @@ class NyAnnonse_fragment : Fragment() {
         val radioTilbud = v.findViewById<RadioButton>(R.id.Tilbud)
         val radioEtterspørsel = v.findViewById<RadioButton>(R.id.Etterspørsel)
         var kategorier = "";
+        val brukerID = FirebaseAuth.getInstance().currentUser!!.uid
+
 
 
         //listener for "Publiser annonse" knappen
@@ -61,44 +69,46 @@ class NyAnnonse_fragment : Fragment() {
             //Konstruktør for annonsene
             data class Annonse(
                 val tittel: String, val beskrivelse: String, val id: String,
-                val kategorier: String, val lat: Double, val long: Double
+                val kategorier: String, val lat: Double, val long: Double, val brukerID: String
             )
 
             //henter og gjør om tittel og beskrivelse til String
             val title = sendTitle.text.toString()
             val desc = sendDesc.text.toString()
 
+
             //Sjekker om annonse er tilbud eller etterspørsel
             if (radioTilbud.isChecked) {
-              kategorier = "Tilbud";
+                kategorier = "Tilbud";
             } else if(radioEtterspørsel.isChecked) {
                 kategorier = "Etterspørsel";
             }
 
 
-
             //genererer en random ID, brukes som "Key" til den enkelte annonsen
-            val unikID = UUID.randomUUID().toString()
+            val annonseID = UUID.randomUUID().toString()
+
+
 
             //Referanse til der Annonsen skal lagres
             database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
 
-                //Lager et annonse objekt ved bruk av konstruktøren
-                val annonse = Annonse(title, desc, unikID, kategorier, lat, long)
+            //Lager et annonse objekt ved bruk av konstruktøren
+            val annonse = Annonse(title, desc, annonseID, kategorier, lat, long, brukerID)
 
-                database.child(unikID).setValue(annonse).addOnSuccessListener {
-                        sendTitle.text.clear()
-                        sendDesc.text.clear()
+            database.child(annonseID).setValue(annonse).addOnSuccessListener {
+                sendTitle.text.clear()
+                sendDesc.text.clear()
 
-                    }.addOnFailureListener {
-                        //Gjør dette, dersom det feiler
-                        Toast.makeText(
-                            this.context,
-                            "Kunne ikke opprette annonse",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+            }.addOnFailureListener {
+                //Gjør dette, dersom det feiler
+                Toast.makeText(
+                    this.context,
+                    "Kunne ikke opprette annonse",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+        }
 
 
 
