@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/almostGray"
+    android:backgroundTint="@color/almostGray"
     android:visibility="visible"
     tools:visibility="visible">
 
@@ -32,28 +33,55 @@
         android:id="@+id/profil_navn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
         android:text="@string/profilnavn"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="log ut"
-        android:textSize="20dp"
-        android:background="@drawable/cutsom_button"
-        android:textColor="@color/black"
         android:id="@+id/logUtBtn"
-        android:layout_marginTop="30dp"
-        tools:ignore="MissingConstraints"
+        android:layout_width="250dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="224dp"
+        android:background="@drawable/cutsom_button"
+        android:text="log ut"
+        android:textColor="@color/black"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profil_navn"/>
+        app:layout_constraintTop_toBottomOf="@+id/profil_navn"
+        tools:ignore="MissingConstraints" />
 
+    <ImageButton
+        android:id="@+id/findPic"
+        android:layout_width="66dp"
+        android:layout_height="67dp"
+        android:backgroundTint="#2196F3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.26"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.587"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        app:tint="#050303"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/uploadBtn"
+        android:layout_width="144dp"
+        android:layout_height="67dp"
+        android:text="Last opp bilde"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.584"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.588" />
 
 
     <!--<TextView
