@@ -1,13 +1,24 @@
 package com.simpliest.giveget
 
+
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 
-class ChatRecyclerAdapter(private val nameList : MutableList<String>, private val adList : MutableList<String>)
+
+
+
+
+
+class ChatRecyclerAdapter(private val context: Context, private val nameList : MutableList<String>, private val adList : MutableList<String>)
     : RecyclerView.Adapter<ChatRecyclerAdapter.ViewHolder>() {
 
 
@@ -39,6 +50,18 @@ class ChatRecyclerAdapter(private val nameList : MutableList<String>, private va
             itemImage = itemView.findViewById(R.id.chat_card_image)
             itemName = itemView.findViewById(R.id.chat_card_name)
             itemAd = itemView.findViewById(R.id.chat_card_ad)
+
+            itemView.setOnClickListener {
+                val position: Int = adapterPosition
+
+                val samtaleFragment = chatFragment(nameList[position], adList[position])
+                val fm : FragmentManager = (context as AppCompatActivity).supportFragmentManager
+                fm.beginTransaction().replace(R.id.secondLayout, samtaleFragment).commit()
+
+
+
+                Toast.makeText(itemView.context, nameList[position], Toast.LENGTH_LONG).show()
+            }
         }
     }
 
