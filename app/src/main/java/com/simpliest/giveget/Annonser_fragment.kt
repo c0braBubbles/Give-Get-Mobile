@@ -149,6 +149,7 @@ class Annonser_fragment : Fragment() {
          }
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(recyclerView)
+        fragmentManager
     }
 
 }
