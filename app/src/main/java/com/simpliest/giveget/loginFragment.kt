@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -35,6 +36,7 @@ class loginFragment : Fragment() {
         bt.setOnClickListener {
             val secondFragment = signupFragment()
             val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
+            val fm : FragmentManager = requireActivity().getSupportFragmentManager()
             transaction.replace(R.id.mainlayout,secondFragment)
             transaction.commit()
         }

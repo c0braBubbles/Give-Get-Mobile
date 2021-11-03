@@ -6,15 +6,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class chatFragment : Fragment() {
+class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragment() {
 
-    val listenMin: MutableList<String> = ArrayList()
+    private var layoutManager: RecyclerView.LayoutManager? = null
+    private var adapter: RecyclerView.Adapter<MsgRecyclerAdapter.ViewHolder>?= null
+
+    var sendList: MutableList<String> = ArrayList()
+    var receiveList: MutableList<String> = ArrayList()
+
+    //val listenMin: MutableList<String> = ArrayList()
 
     private lateinit var database : DatabaseReference
 
@@ -22,21 +32,48 @@ class chatFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        layoutManager = LinearLayoutManager(this.context)
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-            val v = inflater.inflate(R.layout.chat_fragment, container, false)
 
-            val listView = v.findViewById<ListView>(R.id.msgList)
+
+        sendList.add("Hei1")
+        receiveList.add("")
+
+        sendList.add("Hei2")
+        receiveList.add("")
+
+        receiveList.add("Heisan")
+        sendList.add("")
+
+        sendList.add("Hei3")
+        receiveList.add("")
+
+
+        val v = inflater.inflate(R.layout.chat_fragment, container, false)
+
+        val tf = v.findViewById<TextView>(R.id.chat_info)
+        tf.text = samtalePartner +"\n" + annonseNavn
+
+        val rView = v.findViewById<RecyclerView>(R.id.msg_list)
+        rView.layoutManager = layoutManager
+
+        adapter = MsgRecyclerAdapter(sendList, receiveList)
+        rView.adapter = adapter
+
+
+            /*val listView = v.findViewById<ListView>(R.id.msgList)
 
             val adapter =ArrayAdapter (
                 requireActivity().getApplicationContext(), android.R.layout.simple_list_item_1, listenMin)
 
             listView.setAdapter(adapter)
-
+            *//*
             val sendBtn = v.findViewById<Button>(R.id.sendMsgBtn)
             val sendTxt = v.findViewById<EditText>(R.id.writeMsgField)
 
@@ -54,7 +91,7 @@ class chatFragment : Fragment() {
                     val nyMld = snapshot.child("message").value.toString()
                     val sender = snapshot.child("sender").value.toString()
                     val receiver = snapshot.child("receiver").value.toString()
-                    listenMin.add(nyMld)
+                    //listenMin.add(nyMld)
                 }
 
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -92,11 +129,18 @@ class chatFragment : Fragment() {
                 }
 
             }
+            */
+
+
 
 
             // Inflate the layout for this fragment
             return v
     }
 
-
+    fun loadFragment(fragment : Fragment) {
+        val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
+        transaction.replace(R.id.secondLayout,fragment)
+        transaction.commit()
+    }
 }

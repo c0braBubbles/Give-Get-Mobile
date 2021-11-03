@@ -36,7 +36,7 @@ class MainActivity2 : AppCompatActivity() {
 
     private val dashboardFragment = Dashboard()
     private val searchFragment = Search()
-    private val fragmentChatMenu = ChatMenuFragment() //Dette var chatFragment() tidligere
+    private val fragmentChatMenu = ChatMenuFragment() //Dette var chatFragment() tidligere ChatMenuFragment()
     private val profileFragment = Profil_fragment()
     private val addsFragment = Annonser_fragment()
     private val newAddFragment = NyAnnonse_fragment()

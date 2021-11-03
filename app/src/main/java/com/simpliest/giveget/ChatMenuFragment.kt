@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -45,7 +46,7 @@ class ChatMenuFragment : Fragment() {
         val rView = v.findViewById<RecyclerView>(R.id.chat_menu_list)
         rView.layoutManager = layoutManager
 
-        adapter = ChatRecyclerAdapter(liste1, liste2)
+        adapter = ChatRecyclerAdapter(requireActivity(),liste1, liste2)
         rView.adapter = adapter
 
         return v
