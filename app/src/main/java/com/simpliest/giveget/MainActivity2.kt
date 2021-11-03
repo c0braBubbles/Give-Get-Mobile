@@ -36,10 +36,11 @@ class MainActivity2 : AppCompatActivity() {
 
     private val dashboardFragment = Dashboard()
     private val searchFragment = Search()
-    private val fragmentChat = chatFragment()
+    private val fragmentChatMenu = ChatMenuFragment() //Dette var chatFragment() tidligere
     private val profileFragment = Profil_fragment()
     private val addsFragment = Annonser_fragment()
     private val newAddFragment = NyAnnonse_fragment()
+    //private val chatMenuFragment = ChatMenuFragment()
 
     private lateinit var binding: ActivityMain2Binding
 
@@ -68,7 +69,7 @@ class MainActivity2 : AppCompatActivity() {
                 R.id.nav_home -> replaceFragment(dashboardFragment)
                 R.id.nav_search -> replaceFragment(searchFragment)
                 R.id.nav_add -> replaceFragment(addsFragment)
-                R.id.nav_chat -> replaceFragment(fragmentChat)
+                R.id.nav_chat -> replaceFragment(fragmentChatMenu)
                 R.id.nav_profile -> replaceFragment(profileFragment)
             }
             true
