@@ -1,6 +1,7 @@
 package com.simpliest.giveget
 
 import android.content.ContentValues
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -25,8 +26,10 @@ import kotlinx.android.synthetic.main.activity_annonser.view.*
 import com.google.firebase.database.FirebaseDatabase
 
 import com.google.firebase.database.DatabaseReference
-
-
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_profil.*
+import kotlinx.android.synthetic.main.card_layout.*
+import java.io.File
 
 
 class Annonser_fragment : Fragment() {
@@ -82,6 +85,13 @@ class Annonser_fragment : Fragment() {
                     layoutManager = LinearLayoutManager(this.context)
                     adapter = RecyclerAdapter(tittelList, beskList)
 
+                }
+                //Henter annonsebilde fra firebase storage
+                val storageRef = FirebaseStorage.getInstance().reference.child("image/$annonseid")
+                val localfile = File.createTempFile("tempImage", "jpg")
+                storageRef.getFile(localfile).addOnSuccessListener {
+                    val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+                    item_image.setImageBitmap(bitmap)
                 }
             }
 

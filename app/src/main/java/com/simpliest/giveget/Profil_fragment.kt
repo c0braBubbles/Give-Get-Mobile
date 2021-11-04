@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -77,6 +78,7 @@ class Profil_fragment : Fragment() {
              storageRef.getFile(localfile).addOnSuccessListener {
              val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
                  imageView.setImageBitmap(bitmap)
+
             }
 
 
@@ -102,6 +104,11 @@ class Profil_fragment : Fragment() {
                imageView.setImageURI(null)
                Toast.makeText(this.context, "Bildet er lastet opp", Toast.LENGTH_SHORT).show()
                if (progressDialog.isShowing) progressDialog.dismiss()
+                //Navigerer til samme fragment på nytt, for å "refreshe"
+                 val secondFragment = Profil_fragment()
+                 val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
+                 transaction.replace(R.id.secondLayout, secondFragment)
+                 transaction.commit()                                                                  
            }.addOnFailureListener {
              Toast.makeText(this.context, "Bildet kunne ikke lastes opp", Toast.LENGTH_SHORT).show()
            }
