@@ -30,12 +30,12 @@ class RecyclerAdapter(private val titleList : MutableList<String>, private val d
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        var itemImage: ImageView
+       // var itemImage: ImageView
         var itemTitle: TextView
         var itemDetail: TextView
 
         init {
-            itemImage = itemView.findViewById(R.id.item_image)
+            //itemImage = itemView.findViewById(R.id.item_image)
             itemTitle = itemView.findViewById(R.id.item_title)
             itemDetail = itemView.findViewById(R.id.item_detailed)
         }

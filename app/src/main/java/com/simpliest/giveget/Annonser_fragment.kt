@@ -86,13 +86,7 @@ class Annonser_fragment : Fragment() {
                     adapter = RecyclerAdapter(tittelList, beskList)
 
                 }
-                //Henter annonsebilde fra firebase storage
-                val storageRef = FirebaseStorage.getInstance().reference.child("image/$annonseid")
-                val localfile = File.createTempFile("tempImage", "jpg")
-                storageRef.getFile(localfile).addOnSuccessListener {
-                    val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
-                    item_image.setImageBitmap(bitmap)
-                }
+
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {

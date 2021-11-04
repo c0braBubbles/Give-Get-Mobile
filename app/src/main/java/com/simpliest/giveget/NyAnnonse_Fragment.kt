@@ -34,14 +34,12 @@ class NyAnnonse_fragment : Fragment() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient   //posisjonting
     var lat: Double = 0.0
     var long: Double = 0.0
-    lateinit var ImageUri : Uri
     lateinit var annonseID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.activity)
         checkLocationPermissions()
-
     }
 
     override fun onCreateView(
@@ -58,7 +56,6 @@ class NyAnnonse_fragment : Fragment() {
             transaction.commit()
         }
 
-
         val publiserBtn = v.findViewById<Button>(R.id.publiserbtn)
         val sendTitle = v.findViewById<EditText>(R.id.titleField)
         val sendDesc = v.findViewById<EditText>(R.id.descField)
@@ -66,8 +63,6 @@ class NyAnnonse_fragment : Fragment() {
         val radioEtterspørsel = v.findViewById<RadioButton>(R.id.Etterspørsel)
         var kategorier = "";
         val brukerID = FirebaseAuth.getInstance().currentUser!!.uid
-
-
 
         //listener for "Publiser annonse" knappen
         publiserBtn.setOnClickListener {
@@ -81,7 +76,6 @@ class NyAnnonse_fragment : Fragment() {
             val title = sendTitle.text.toString()
             val desc = sendDesc.text.toString()
 
-
             //Sjekker om annonse er tilbud eller etterspørsel
             if (radioTilbud.isChecked) {
                 kategorier = "Tilbud";
@@ -89,11 +83,8 @@ class NyAnnonse_fragment : Fragment() {
                 kategorier = "Etterspørsel";
             }
 
-
             //genererer en random ID, brukes som "Key" til den enkelte annonsen
             annonseID = UUID.randomUUID().toString()
-
-
 
             //Referanse til der Annonsen skal lagres
             database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
@@ -104,8 +95,6 @@ class NyAnnonse_fragment : Fragment() {
             database.child(annonseID).setValue(annonse).addOnSuccessListener {
                 sendTitle.text.clear()
                 sendDesc.text.clear()
-                uploadImage(annonseID)
-
 
             }.addOnFailureListener {
                 //Gjør dette, dersom det feiler
@@ -116,17 +105,8 @@ class NyAnnonse_fragment : Fragment() {
                 ).show()
             }
         }
-
-        v.findViewById<ImageButton>(R.id.findPic).setOnClickListener{
-            selectImage()
-        }
-
-
-
         return v
-
     }
-
 
     fun checkLocationPermissions() {
         val task = fusedLocationProviderClient.lastLocation
@@ -153,44 +133,5 @@ class NyAnnonse_fragment : Fragment() {
             }
         }
     }
-    private fun uploadImage(id :String) {
-        val progressDialog = ProgressDialog(this.context)
-        progressDialog.setMessage("Laster opp bilde....")
-        progressDialog.setCancelable(false)
-        progressDialog.show()
 
-        val fileName = id
-        val storageReference = FirebaseStorage.getInstance().getReference("image/$fileName")
-        if (fileName != null) {
-            storageReference.putFile(ImageUri).addOnSuccessListener {
-
-                Toast.makeText(this.context, "Bildet er lastet opp", Toast.LENGTH_SHORT).show()
-                if (progressDialog.isShowing) progressDialog.dismiss()
-                //Navigerer til samme fragment på nytt, for å "refreshe"
-                val secondFragment = Profil_fragment()
-                val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
-                transaction.replace(R.id.secondLayout, secondFragment)
-                transaction.commit()
-            }.addOnFailureListener {
-                Toast.makeText(this.context, "Bildet kunne ikke lastes opp", Toast.LENGTH_SHORT)
-                    .show()
-           }
-        }
-
-    }
-    private fun selectImage() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-
-        startActivityForResult(intent,100)
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if(requestCode == 100 && resultCode == Activity.RESULT_OK){
-            ImageUri = data?.data!!
-           // imageView.setImageURI(ImageUri)
-        }
-    }
 }
