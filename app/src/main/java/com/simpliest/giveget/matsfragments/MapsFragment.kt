@@ -18,6 +18,8 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.database.*
@@ -28,7 +30,6 @@ import org.w3c.dom.Comment
 
 class MapsFragment : Fragment() {
 
-    private val secAct = MainActivity2()
     private lateinit var database: DatabaseReference
 
     private val callback = OnMapReadyCallback { googleMap ->
@@ -41,6 +42,8 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
+
+        var markList = ArrayList<Marker>()
         database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
 
         val childEventListener = object : ChildEventListener {
@@ -48,13 +51,34 @@ class MapsFragment : Fragment() {
                 Log.d(TAG, "onChildAdded:" + dataSnapshot.key!!)
 
                 val add_title = dataSnapshot.child("tittel").value.toString()
+                val add_descr = dataSnapshot.child("beskrivelse").value.toString()
                 val add_lat = dataSnapshot.child("lat").value as Double
                 val add_long = dataSnapshot.child("long").value as Double
+                val add_latLng = LatLng(add_lat, add_long)
 
-                val marker1 = LatLng(add_lat, add_long)
-                googleMap.addMarker(MarkerOptions().position(marker1).title(add_title))
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(marker1))
+                val marker = Marker(add_lat, add_long, add_title, add_descr)
+                markList += marker
+
+
+                for(i in markList.indices) {
+                    val gmark = googleMap!!.addMarker(
+                        MarkerOptions().position(
+                            LatLng(
+                                markList[i].lat,
+                                markList[i].long
+                            )
+                        ).title(markList[i].desc)
+                    )
+                    gmark.tag = markList[i].title
+                }
+
+                googleMap!!.setOnMarkerClickListener { marker ->
+                    Toast.makeText(context, "Beskrivelse: ${marker.tag}",
+                        Toast.LENGTH_SHORT).show()
+                    true
+                }
             }
+
             override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d(TAG, "onChildChanged: ${dataSnapshot.key}")
 
@@ -95,10 +119,19 @@ class MapsFragment : Fragment() {
         }
         database.addChildEventListener(childEventListener)
 
+
         /*val sydney = LatLng(59.148066, 9.692892)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))*/
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
+        //tester markør-onclick DET FUNKET
+        googleMap.setOnMarkerClickListener { sydney ->
+            Toast.makeText(context, "onclick på markør test",
+                Toast.LENGTH_SHORT).show()
+            true
+        }*/
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -107,6 +140,7 @@ class MapsFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_maps, container, false)
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
