@@ -41,7 +41,7 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
         savedInstanceState: Bundle?
     ): View? {
 
-
+/*
         sendList.add("Hei1")
         receiveList.add("")
 
@@ -53,7 +53,7 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
 
         sendList.add("Hei3")
         receiveList.add("")
-
+*/
 
         val v = inflater.inflate(R.layout.chat_fragment, container, false)
 
@@ -63,84 +63,82 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
         val rView = v.findViewById<RecyclerView>(R.id.msg_list)
         rView.layoutManager = layoutManager
 
-        adapter = MsgRecyclerAdapter(sendList, receiveList)
-        rView.adapter = adapter
+        //adapter = MsgRecyclerAdapter(sendList, receiveList)
+        //rView.adapter = adapter
 
 
-            /*val listView = v.findViewById<ListView>(R.id.msgList)
-
-            val adapter =ArrayAdapter (
-                requireActivity().getApplicationContext(), android.R.layout.simple_list_item_1, listenMin)
-
-            listView.setAdapter(adapter)
-            *//*
-            val sendBtn = v.findViewById<Button>(R.id.sendMsgBtn)
-            val sendTxt = v.findViewById<EditText>(R.id.writeMsgField)
-
-            val midlertidigBrukernavn = "midlertidigBruker"
-
-            val currentUserUid = FirebaseAuth.getInstance().getCurrentUser()?.getUid();
-            var currentUsername = "blank"
-            FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
-                currentUsername = it.child("username").value.toString()
-            }
 
 
-            val childEventListener = object : ChildEventListener {
-                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                    val nyMld = snapshot.child("message").value.toString()
-                    val sender = snapshot.child("sender").value.toString()
-                    val receiver = snapshot.child("receiver").value.toString()
-                    //listenMin.add(nyMld)
+        val sendBtn = v.findViewById<Button>(R.id.sendMsgBtn)
+        val sendTxt = v.findViewById<EditText>(R.id.writeMsgField)
+
+        val currentUserUid = FirebaseAuth.getInstance().getCurrentUser()?.getUid()
+        var currentUsername = "JacobFK"
+        /*FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
+            currentUsername = it.child("username").value.toString()
+        }*/
+
+
+        val childEventListener = object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val nyMld = snapshot.child("message").value.toString()
+                val sender = snapshot.child("sender").value.toString()
+                val receiver = snapshot.child("receiver").value.toString()
+
+                if (sender == currentUsername && receiver == samtalePartner) {
+                    sendList.add(nyMld)
+                    receiveList.add("")
+                } else if (sender == samtalePartner && receiver == currentUsername) {
+                    receiveList.add(nyMld)
+                    sendList.add("")
                 }
 
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onChildRemoved(snapshot: DataSnapshot) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
+                adapter = MsgRecyclerAdapter(sendList, receiveList)
+                rView.adapter = adapter
 
             }
 
-            FirebaseDatabase.getInstance().getReference("mobilMelding").addChildEventListener(childEventListener)
-
-            sendBtn.setOnClickListener {
-                val melding = sendTxt.text.toString()
-                //genererer en tilfeldig ID for hver melding som blir sendt av en bruker
-                val unikID = UUID.randomUUID().toString()
-
-                database = FirebaseDatabase.getInstance().getReference("mobilMelding")
-                val meldingInfo = Message(melding,currentUsername,midlertidigBrukernavn)
-                database.child(unikID).setValue(meldingInfo).addOnSuccessListener {
-                    //listenMin.add(melding)
-                    sendTxt.text.clear()
-                }.addOnFailureListener {
-                    Toast.makeText(this.context, "Kunne ikke sende melding", Toast.LENGTH_SHORT).show()
-                }
-
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                TODO("Not yet implemented")
             }
-            */
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+                TODO("Not yet implemented")
+            }
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                TODO("Not yet implemented")
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        FirebaseDatabase.getInstance().getReference("mobilMelding").addChildEventListener(childEventListener)
+
+        sendBtn.setOnClickListener {
+            val melding = sendTxt.text.toString()
+            //genererer en tilfeldig ID for hver melding som blir sendt av en bruker
+            val unikID = UUID.randomUUID().toString()
+
+            database = FirebaseDatabase.getInstance().getReference("mobilMelding")
+            val meldingInfo = Message(melding,currentUsername,samtalePartner)
+            database.child(unikID).setValue(meldingInfo).addOnSuccessListener {
+                //listenMin.add(melding)
+                sendTxt.text.clear()
+            }.addOnFailureListener {
+                Toast.makeText(this.context, "Kunne ikke sende melding", Toast.LENGTH_SHORT).show()
+            }
+
+        }
 
 
 
 
-            // Inflate the layout for this fragment
-            return v
+        //adapter = MsgRecyclerAdapter(sendList, receiveList)
+        //rView.adapter = adapter
+        // Inflate the layout for this fragment
+        return v
     }
 
-    fun loadFragment(fragment : Fragment) {
-        val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
-        transaction.replace(R.id.secondLayout,fragment)
-        transaction.commit()
-    }
+
 }
