@@ -90,7 +90,7 @@ class MainActivity2 : AppCompatActivity() {
     }
 
 
-    // metode for å hente posisjon, men alt her er bricka
+    // metode for å hente posisjon
     fun checkLocationPermissions() {
         val task = fusedLocationProviderClient.lastLocation
 
@@ -104,20 +104,14 @@ class MainActivity2 : AppCompatActivity() {
 
         task.addOnSuccessListener {
             if(it != null) {
-                //Toast.makeText(applicationContext, "${it.latitude} ${it.longitude}", Toast.LENGTH_SHORT).show()
                 lat = it.latitude
                 long = it.longitude
-
-                /*Toast.makeText(
-                    this,
-                    lat.toString(),
-                    Toast.LENGTH_SHORT
-                ).show()*/
             }
         }
     }
 
 
+    // Metode for å bytte et fragment med et annet
     fun replaceFragment(fragment: Fragment) {
         val fm: FragmentManager = supportFragmentManager
         fm.beginTransaction().replace(R.id.secondLayout, fragment).commit()
