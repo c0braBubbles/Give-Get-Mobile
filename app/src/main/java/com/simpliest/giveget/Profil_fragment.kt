@@ -92,27 +92,29 @@ class Profil_fragment : Fragment() {
         val progressDialog = ProgressDialog(this.context)
         progressDialog.setMessage("Laster opp bilde....")
         progressDialog.setCancelable(false)
-        progressDialog.show()
 
-       // val formatter = SimpleDateFormat("yyyy_mm_dd_HH_mm_ss", Locale.getDefault())
-       // val now = Date()
-       // val fileName = formatter.format(now)
         val fileName = brukerID
         val storageReference = FirebaseStorage.getInstance().getReference("image/$fileName")
 
-           storageReference.putFile(ImageUri).addOnSuccessListener {
-               imageView.setImageURI(null)
-               Toast.makeText(this.context, "Bildet er lastet opp", Toast.LENGTH_SHORT).show()
-               if (progressDialog.isShowing) progressDialog.dismiss()
+        if (this::ImageUri.isInitialized) {
+            progressDialog.show()
+            storageReference.putFile(ImageUri).addOnSuccessListener {
+                imageView.setImageURI(null)
+                Toast.makeText(this.context, "Bildet er lastet opp", Toast.LENGTH_SHORT).show()
+                if (progressDialog.isShowing) progressDialog.dismiss()
                 //Navigerer til samme fragment på nytt, for å "refreshe"
-                 val secondFragment = Profil_fragment()
-                 val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
-                 transaction.replace(R.id.secondLayout, secondFragment)
-                 transaction.commit()                                                                  
-           }.addOnFailureListener {
-             Toast.makeText(this.context, "Bildet kunne ikke lastes opp", Toast.LENGTH_SHORT).show()
-           }
-
+                val secondFragment = Profil_fragment()
+                val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
+                transaction.replace(R.id.secondLayout, secondFragment)
+                transaction.commit()
+            }.addOnFailureListener {
+                Toast.makeText(this.context, "Bildet kunne ikke lastes opp", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        } else {
+            Toast.makeText(this.context, "Bilde er ikke valgt", Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 
     private fun selectImage() {
