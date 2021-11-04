@@ -84,9 +84,7 @@ class Annonser_fragment : Fragment() {
                 recyclerView.apply {
                     layoutManager = LinearLayoutManager(this.context)
                     adapter = RecyclerAdapter(tittelList, beskList)
-
                 }
-
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -105,7 +103,6 @@ class Annonser_fragment : Fragment() {
                 }
 
             }
-
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
                 TODO("Not yet implemented")
             }
@@ -117,7 +114,6 @@ class Annonser_fragment : Fragment() {
         FirebaseDatabase.getInstance().getReference("AnnonseAndroid").addChildEventListener(childEventListener)
         return v
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
