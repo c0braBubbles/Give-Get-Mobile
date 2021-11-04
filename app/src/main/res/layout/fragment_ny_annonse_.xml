@@ -93,19 +93,28 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbarNyAnnonse"
         app:layout_constraintVertical_bias="0.856" />
 
+
     <RadioGroup
         android:id="@+id/kategori"
-        android:layout_width="129dp"
-        android:layout_height="112dp"
+        android:layout_width="128dp"
+        android:layout_height="121dp"
+
         android:layout_marginStart="167dp"
         android:layout_marginTop="27dp"
         android:layout_marginEnd="167dp"
         android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toTopOf="@+id/publiserbtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.4">
+
+        <RadioButton
+            android:id="@+id/Etterspørsel"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:text="Etterspørsel" />
 
         <RadioButton
             android:id="@+id/Tilbud"
@@ -113,12 +122,22 @@
             android:layout_height="59dp"
             android:text="Tilbud" />
 
-        <RadioButton
-            android:id="@+id/Etterspørsel"
-            android:layout_width="123dp"
-            android:layout_height="59dp"
-            android:text="Etterspørsel" />
+
     </RadioGroup>
+
+    <ImageButton
+        android:id="@+id/findPic"
+        android:layout_width="66dp"
+        android:layout_height="67dp"
+        android:layout_marginBottom="200dp"
+        android:backgroundTint="#2196F3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.849"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        app:tint="#050303"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

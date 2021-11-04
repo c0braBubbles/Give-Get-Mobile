@@ -1,6 +1,10 @@
 package com.simpliest.giveget
 
+import android.app.Activity
+import android.app.ProgressDialog
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,9 +24,8 @@ import java.util.*
 import com.google.firebase.auth.FirebaseAuth
 
 import com.google.firebase.auth.FirebaseUser
-
-
-
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_profil.*
 
 
 class NyAnnonse_fragment : Fragment() {
@@ -31,6 +34,8 @@ class NyAnnonse_fragment : Fragment() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient   //posisjonting
     var lat: Double = 0.0
     var long: Double = 0.0
+    lateinit var ImageUri : Uri
+    lateinit var annonseID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +91,7 @@ class NyAnnonse_fragment : Fragment() {
 
 
             //genererer en random ID, brukes som "Key" til den enkelte annonsen
-            val annonseID = UUID.randomUUID().toString()
+            annonseID = UUID.randomUUID().toString()
 
 
 
@@ -99,6 +104,8 @@ class NyAnnonse_fragment : Fragment() {
             database.child(annonseID).setValue(annonse).addOnSuccessListener {
                 sendTitle.text.clear()
                 sendDesc.text.clear()
+                uploadImage(annonseID)
+
 
             }.addOnFailureListener {
                 //Gjør dette, dersom det feiler
@@ -108,6 +115,10 @@ class NyAnnonse_fragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        }
+
+        v.findViewById<ImageButton>(R.id.findPic).setOnClickListener{
+            selectImage()
         }
 
 
@@ -140,6 +151,46 @@ class NyAnnonse_fragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        }
+    }
+    private fun uploadImage(id :String) {
+        val progressDialog = ProgressDialog(this.context)
+        progressDialog.setMessage("Laster opp bilde....")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
+        val fileName = id
+        val storageReference = FirebaseStorage.getInstance().getReference("image/$fileName")
+        if (fileName != null) {
+            storageReference.putFile(ImageUri).addOnSuccessListener {
+
+                Toast.makeText(this.context, "Bildet er lastet opp", Toast.LENGTH_SHORT).show()
+                if (progressDialog.isShowing) progressDialog.dismiss()
+                //Navigerer til samme fragment på nytt, for å "refreshe"
+                val secondFragment = Profil_fragment()
+                val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
+                transaction.replace(R.id.secondLayout, secondFragment)
+                transaction.commit()
+            }.addOnFailureListener {
+                Toast.makeText(this.context, "Bildet kunne ikke lastes opp", Toast.LENGTH_SHORT)
+                    .show()
+           }
+        }
+
+    }
+    private fun selectImage() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+
+        startActivityForResult(intent,100)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == 100 && resultCode == Activity.RESULT_OK){
+            ImageUri = data?.data!!
+           // imageView.setImageURI(ImageUri)
         }
     }
 }
