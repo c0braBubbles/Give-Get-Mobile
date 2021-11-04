@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -22,6 +23,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 //import com.google.firebase.storage
 import kotlinx.android.synthetic.main.activity_profil.*
+import java.io.File
 import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.*
@@ -68,6 +70,17 @@ class Profil_fragment : Fragment() {
         v.findViewById<Button>(R.id.uploadBtn).setOnClickListener {
             uploadImage()
         }
+
+        //Henter profilbilde fra firebase storage
+        val storageRef = FirebaseStorage.getInstance().reference.child("image/$brukerID")
+             val localfile = File.createTempFile("tempImage", "jpg")
+             storageRef.getFile(localfile).addOnSuccessListener {
+             val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+                 imageView.setImageBitmap(bitmap)
+            }
+
+
+
 
 
         return v

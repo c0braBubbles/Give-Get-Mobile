@@ -45,7 +45,7 @@
         android:id="@+id/logUtBtn"
         android:layout_width="250dp"
         android:layout_height="67dp"
-        android:layout_marginTop="224dp"
+        android:layout_marginTop="192dp"
         android:background="@drawable/cutsom_button"
         android:text="log ut"
         android:textColor="@color/black"
