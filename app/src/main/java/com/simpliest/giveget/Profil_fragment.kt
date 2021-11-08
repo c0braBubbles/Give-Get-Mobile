@@ -34,7 +34,6 @@ class Profil_fragment : Fragment() {
 
     private lateinit var database: DatabaseReference
     lateinit var ImageUri : Uri
-    //lateinit var binding: Profil_fragment
     val brukerID = FirebaseAuth.getInstance().currentUser!!.uid.toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,10 +79,6 @@ class Profil_fragment : Fragment() {
                  imageView.setImageBitmap(bitmap)
 
             }
-
-
-
-
 
         return v
     }

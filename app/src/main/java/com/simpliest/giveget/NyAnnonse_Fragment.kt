@@ -69,7 +69,8 @@ class NyAnnonse_fragment : Fragment() {
             //Konstruktør for annonsene
             data class Annonse(
                 val tittel: String, val beskrivelse: String, val id: String,
-                val kategorier: String, val lat: Double, val long: Double, val brukerID: String
+                val kategorier: String, val lat: Double, val long: Double, val brukerID: String,
+                val brukernavn: String
             )
 
             //henter og gjør om tittel og beskrivelse til String
@@ -89,20 +90,36 @@ class NyAnnonse_fragment : Fragment() {
             //Referanse til der Annonsen skal lagres
             database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
 
-            //Lager et annonse objekt ved bruk av konstruktøren
-            val annonse = Annonse(title, desc, annonseID, kategorier, lat, long, brukerID)
+            //Henter innloget brukers brukernavn
+            val currentUserUid = FirebaseAuth.getInstance().getCurrentUser()?.getUid();
+            var currentUsername = "blank"
+            FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
+                currentUsername = it.child("username").value.toString()
 
-            database.child(annonseID).setValue(annonse).addOnSuccessListener {
-                sendTitle.text.clear()
-                sendDesc.text.clear()
+                //Lager et annonse objekt ved bruk av konstruktøren
+                val annonse = Annonse(
+                    title,
+                    desc,
+                    annonseID,
+                    kategorier,
+                    lat,
+                    long,
+                    brukerID,
+                    currentUsername
+                )
 
-            }.addOnFailureListener {
-                //Gjør dette, dersom det feiler
-                Toast.makeText(
-                    this.context,
-                    "Kunne ikke opprette annonse",
-                    Toast.LENGTH_SHORT
-                ).show()
+                database.child(annonseID).setValue(annonse).addOnSuccessListener {
+                    sendTitle.text.clear()
+                    sendDesc.text.clear()
+
+                }.addOnFailureListener {
+                    //Gjør dette, dersom det feiler
+                    Toast.makeText(
+                        this.context,
+                        "Kunne ikke opprette annonse",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
         return v
