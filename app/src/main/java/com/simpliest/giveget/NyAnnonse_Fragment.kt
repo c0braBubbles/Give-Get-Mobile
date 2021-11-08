@@ -28,18 +28,17 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_profil.*
 
 
-class NyAnnonse_fragment : Fragment() {
+class NyAnnonse_fragment(val latt: Double, val longg: Double) : Fragment() {
 
     private lateinit var database : DatabaseReference
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient   //posisjonting
-    var lat: Double = 0.0
-    var long: Double = 0.0
+    var lat: Double = latt
+    var long: Double = longg
     lateinit var annonseID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.activity)
-        checkLocationPermissions()
+
     }
 
     override fun onCreateView(
@@ -55,6 +54,11 @@ class NyAnnonse_fragment : Fragment() {
             transaction.replace(R.id.secondLayout,secondFragment)
             transaction.commit()
         }
+
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.activity)
+        checkLocationPermissions()
+
 
         val publiserBtn = v.findViewById<Button>(R.id.publiserbtn)
         val sendTitle = v.findViewById<EditText>(R.id.titleField)
@@ -125,6 +129,7 @@ class NyAnnonse_fragment : Fragment() {
         return v
     }
 
+
     fun checkLocationPermissions() {
         val task = fusedLocationProviderClient.lastLocation
 
@@ -138,13 +143,18 @@ class NyAnnonse_fragment : Fragment() {
 
         task.addOnSuccessListener {
             if(it != null) {
-                //Toast.makeText(applicationContext, "${it.latitude} ${it.longitude}", Toast.LENGTH_SHORT).show()
-                lat = it.latitude
-                long = it.longitude
+                lat = it.latitude.toDouble()
+                long = it.longitude.toDouble()
 
                 Toast.makeText(
                     this.context,
                     lat.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else if (it == null) {
+                Toast.makeText(
+                    this.context,
+                    "noe gikk galt",
                     Toast.LENGTH_SHORT
                 ).show()
             }

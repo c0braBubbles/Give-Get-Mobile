@@ -39,7 +39,7 @@ class MainActivity2 : AppCompatActivity() {
     private val fragmentChatMenu = ChatMenuFragment() //Dette var chatFragment() tidligere ChatMenuFragment()
     private val profileFragment = Profil_fragment()
     private val addsFragment = Annonser_fragment()
-    private val newAddFragment = NyAnnonse_fragment()
+    //private val newAddFragment = NyAnnonse_fragment()
     //private val chatMenuFragment = ChatMenuFragment()
 
     private lateinit var binding: ActivityMain2Binding

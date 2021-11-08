@@ -1,6 +1,7 @@
 package com.simpliest.giveget
 
 import android.content.ContentValues
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
@@ -19,9 +20,12 @@ import kotlinx.android.synthetic.main.activity_annonser.*
 import kotlinx.android.synthetic.main.activity_main2.*
 import android.widget.SimpleAdapter
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_annonser.view.*
 import com.google.firebase.database.FirebaseDatabase
 
@@ -40,6 +44,11 @@ class Annonser_fragment : Fragment() {
     val beskList: MutableList<String> = ArrayList()
     val idList: MutableList<String> = ArrayList()
 
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient   //posisjonting
+    var lat: Double = 0.0
+    var long: Double = 0.0
+
+
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
 
@@ -56,10 +65,13 @@ class Annonser_fragment : Fragment() {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.activity_annonser, container, false)
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.activity)
+        checkLocationPermissions()
+
         //Åpne ny fragment ved buttonclick på "pluss"
         val bt = v.findViewById<FloatingActionButton>(R.id.floatingActionButton3)
         bt.setOnClickListener {
-            val secondFragment = NyAnnonse_fragment()
+            val secondFragment = NyAnnonse_fragment(lat, long)
             val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
             transaction.replace(R.id.secondLayout, secondFragment)
             transaction.commit()
@@ -150,6 +162,38 @@ class Annonser_fragment : Fragment() {
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(recyclerView)
         fragmentManager
+    }
+
+
+    fun checkLocationPermissions() {
+        val task = fusedLocationProviderClient.lastLocation
+
+        if(ActivityCompat.checkSelfPermission(this.requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED && ActivityCompat
+                .checkSelfPermission(this.requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this.requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 101)
+            return
+        }
+
+        task.addOnSuccessListener {
+            if(it != null) {
+                lat = it.latitude.toDouble()
+                long = it.longitude.toDouble()
+
+                Toast.makeText(
+                    this.context,
+                    lat.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else if (it == null) {
+                Toast.makeText(
+                    this.context,
+                    "noe gikk galt",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
 }

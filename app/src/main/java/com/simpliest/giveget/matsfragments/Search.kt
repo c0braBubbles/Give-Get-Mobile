@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -69,21 +71,26 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                 adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_list_item_1, tittelList)
                 val searchList = v.findViewById<ListView>(R.id.search_list)
                 searchList.adapter = adapter
+                searchList.isVisible = false
 
 
                 // søke-algoritme
                 search_view.setOnQueryTextListener(object: SearchView.OnQueryTextListener,
                     androidx.appcompat.widget.SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String): Boolean {
+                        searchList.isVisible = search_view.hasFocus()
                         if (tittelList.contains(query) || descList.contains(query)) {
                             adapter.filter.filter(query)
                         }
                         else {
+                            searchList.isVisible = false
                             Toast.makeText(context, "No Match found", Toast.LENGTH_LONG).show()
                         }
                         return false
                     }
                     override fun onQueryTextChange(newText: String): Boolean {
+                        searchList.isVisible = search_view.hasFocus()
+
                         adapter.filter.filter(newText)
                         return false
                     }
