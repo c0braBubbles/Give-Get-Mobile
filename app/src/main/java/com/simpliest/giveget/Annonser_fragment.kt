@@ -71,7 +71,7 @@ class Annonser_fragment : Fragment() {
         //Åpne ny fragment ved buttonclick på "pluss"
         val bt = v.findViewById<FloatingActionButton>(R.id.floatingActionButton3)
         bt.setOnClickListener {
-            val secondFragment = NyAnnonse_fragment(lat, long)
+            val secondFragment = NyAnnonse_fragment()
             val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
             transaction.replace(R.id.secondLayout, secondFragment)
             transaction.commit()

@@ -28,12 +28,12 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_profil.*
 
 
-class NyAnnonse_fragment(val latt: Double, val longg: Double) : Fragment() {
+class NyAnnonse_fragment: Fragment() {
 
     private lateinit var database : DatabaseReference
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient   //posisjonting
-    var lat: Double = latt
-    var long: Double = longg
+    var lat: Double = 0.0
+    var long: Double = 0.0
     lateinit var annonseID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
