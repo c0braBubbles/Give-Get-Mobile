@@ -11,15 +11,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.simpliest.giveget.*
 import com.simpliest.giveget.R
+import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.marker_popup.view.*
 import org.w3c.dom.Comment
@@ -41,12 +46,12 @@ class Search : Fragment(R.layout.fragment_dashboard) {
         val v = inflater.inflate(R.layout.fragment_search, container, false)
 
 
-        //val search_bar = search_view
-
         val tittelList: MutableList<String> = ArrayList()
         val descList: MutableList<String> = ArrayList()
 
+
         database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
+
 
         var childEventListener = object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
@@ -64,12 +69,6 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                 adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_list_item_1, tittelList)
                 val searchList = v.findViewById<ListView>(R.id.search_list)
                 searchList.adapter = adapter
-                /*searchList.apply {
-                    layoutManager = LinearLayoutManager(this.context)
-                    //adapter = RecyclerAdapter(tittelList, descList)
-                    adapter = adapter
-                }*/
-                //searchList.visibility = View.INVISIBLE
 
 
                 // søke-algoritme
@@ -89,6 +88,20 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                         return false
                     }
                 })
+
+
+                search_list.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+                    val selectedItemText = parent.getItemAtPosition(position)
+                    //textView.text = "Selected : $selectedItemText"
+                    Toast.makeText(context, "$selectedItemText", Toast.LENGTH_SHORT).show()
+
+                    val fragment = MapsFragment()
+                    fragment.callback = OnMapReadyCallback {googleMap ->
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(1.0, 1.0)))
+                    }
+                    val fm: FragmentManager = (context as AppCompatActivity).supportFragmentManager
+                    fm.beginTransaction().replace(R.id.secondLayout, fragment).commit()
+                }
             }
 
 

@@ -30,6 +30,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="100dp"
         app:layout_constraintTop_toTopOf="@+id/search_list"
+        android:background="@color/whiteSmoke"
         tools:ignore="NotSibling" />
 
     <androidx.appcompat.widget.SearchView

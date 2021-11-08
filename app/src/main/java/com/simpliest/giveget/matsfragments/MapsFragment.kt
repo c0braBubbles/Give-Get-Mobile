@@ -13,6 +13,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import android.content.Intent
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 
@@ -35,7 +37,7 @@ class MapsFragment : Fragment() {
 
     private lateinit var database: DatabaseReference
 
-    private val callback = OnMapReadyCallback { googleMap ->
+    public var callback = OnMapReadyCallback { googleMap ->
         /**
          * Manipulates the map once available.
          * This callback is triggered when the map is ready to be used.
@@ -88,6 +90,10 @@ class MapsFragment : Fragment() {
                         */
 
                         aDialog.dismiss()
+
+                        val fragment = chatFragment("bernt", marker.tag.toString())
+                        val fm: FragmentManager = (context as AppCompatActivity).supportFragmentManager
+                        fm.beginTransaction().replace(R.id.secondLayout, fragment).commit()
                     }
 
                     true

@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/map"
-        android:name="com.simpliest.giveget.matsfragments.MapsFragment"/>
+        android:name="com.simpliest.giveget.matsfragments.MapsFragment"
+        tools:ignore="Instantiatable" />
 
 </LinearLayout>
