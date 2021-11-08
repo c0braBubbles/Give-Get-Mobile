@@ -23,6 +23,9 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
 
     var sendList: MutableList<String> = ArrayList()
     var receiveList: MutableList<String> = ArrayList()
+    val currentUserUid = FirebaseAuth.getInstance().currentUser?.getUid()
+    var currentUsername = ""
+
 
     //val listenMin: MutableList<String> = ArrayList()
 
@@ -31,7 +34,6 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         layoutManager = LinearLayoutManager(this.context)
 
     }
@@ -40,20 +42,6 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-/*
-        sendList.add("Hei1")
-        receiveList.add("")
-
-        sendList.add("Hei2")
-        receiveList.add("")
-
-        receiveList.add("Heisan")
-        sendList.add("")
-
-        sendList.add("Hei3")
-        receiveList.add("")
-*/
 
         val v = inflater.inflate(R.layout.chat_fragment, container, false)
 
@@ -72,62 +60,69 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
         val sendBtn = v.findViewById<Button>(R.id.sendMsgBtn)
         val sendTxt = v.findViewById<EditText>(R.id.writeMsgField)
 
-        val currentUserUid = FirebaseAuth.getInstance().getCurrentUser()?.getUid()
-        var currentUsername = "JacobFK"
-        /*FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
+        /*val currentUserUid = FirebaseAuth.getInstance().currentUser?.getUid()
+        var currentUsername = "blank"
+        FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
             currentUsername = it.child("username").value.toString()
         }*/
 
+        FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
+            currentUsername = it.child("username").value.toString()
 
-        val childEventListener = object : ChildEventListener {
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val nyMld = snapshot.child("message").value.toString()
-                val sender = snapshot.child("sender").value.toString()
-                val receiver = snapshot.child("receiver").value.toString()
 
-                if (sender == currentUsername && receiver == samtalePartner) {
-                    sendList.add(nyMld)
-                    receiveList.add("")
-                } else if (sender == samtalePartner && receiver == currentUsername) {
-                    receiveList.add(nyMld)
-                    sendList.add("")
+            val childEventListener = object : ChildEventListener {
+                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                    val nyMld = snapshot.child("message").value.toString()
+                    val sender = snapshot.child("sender").value.toString()
+                    val receiver = snapshot.child("receiver").value.toString()
+
+                    if (sender == currentUsername && receiver == samtalePartner) {
+                        sendList.add(nyMld)
+                        receiveList.add("")
+                    } else if (sender == samtalePartner && receiver == currentUsername) {
+                        receiveList.add(nyMld)
+                        sendList.add("")
+                    }
+
+                    adapter = MsgRecyclerAdapter(sendList, receiveList)
+                    rView.adapter = adapter
+
                 }
 
-                adapter = MsgRecyclerAdapter(sendList, receiveList)
-                rView.adapter = adapter
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
 
             }
 
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
-            }
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-                TODO("Not yet implemented")
-            }
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
-            }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
+            FirebaseDatabase.getInstance().getReference("mobilMelding")
+                .addChildEventListener(childEventListener)
         }
-
-        FirebaseDatabase.getInstance().getReference("mobilMelding").addChildEventListener(childEventListener)
-
         sendBtn.setOnClickListener {
             val melding = sendTxt.text.toString()
-            //genererer en tilfeldig ID for hver melding som blir sendt av en bruker
-            val unikID = UUID.randomUUID().toString()
+            if ( melding.trim().isEmpty() ) return@setOnClickListener
 
             database = FirebaseDatabase.getInstance().getReference("mobilMelding")
             val meldingInfo = Message(melding,currentUsername,samtalePartner)
-            database.child(unikID).setValue(meldingInfo).addOnSuccessListener {
-                //listenMin.add(melding)
+            database.push().setValue(meldingInfo).addOnSuccessListener {
                 sendTxt.text.clear()
             }.addOnFailureListener {
                 Toast.makeText(this.context, "Kunne ikke sende melding", Toast.LENGTH_SHORT).show()
             }
+
+
 
         }
 
