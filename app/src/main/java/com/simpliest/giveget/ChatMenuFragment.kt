@@ -8,6 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 
 
 class ChatMenuFragment : Fragment() {
@@ -31,6 +36,9 @@ class ChatMenuFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        liste1.clear()
+        liste2.clear()
+
         liste1.add("JonKanon352")
         liste1.add("barmeren")
         liste1.add("flaskefjes")
@@ -40,8 +48,53 @@ class ChatMenuFragment : Fragment() {
         liste2.add("Trenger flasker")
         liste2.add("Jeg trenger en ørn")
 
+        val currentUserUid = FirebaseAuth.getInstance().getCurrentUser()?.getUid()
+        var currentUsername = "blank"
+        FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
+            currentUsername = it.child("username").value.toString()
+        }
+
+
         val v = inflater.inflate(R.layout.chat_menu_fragment, container, false)
         // Inflate the layout for this fragment
+
+        val childEventListener = object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val eier = snapshot.child("annonseEier").value.toString()
+                val kontakter = snapshot.child("annonseKontakter").value.toString()
+                val annonseTittel = snapshot.child("annonseTittel").value.toString()
+                if (eier == currentUsername || kontakter == currentUsername) {
+                    if (eier == currentUsername) {
+                        liste1.add(kontakter)
+                        liste2.add(annonseTittel)
+                    } else {
+                        liste1.add(eier)
+                        liste2.add(annonseTittel)
+                    }
+                }
+
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        FirebaseDatabase.getInstance().getReference("mobilSamtale").addChildEventListener(childEventListener)
+
 
         val rView = v.findViewById<RecyclerView>(R.id.chat_menu_list)
         rView.layoutManager = layoutManager

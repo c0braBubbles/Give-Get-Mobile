@@ -3,35 +3,31 @@ package com.simpliest.giveget.matsfragments
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import androidx.fragment.app.Fragment
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import android.content.Intent
+import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
-
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.storage.FirebaseStorage
 import com.simpliest.giveget.*
 import com.simpliest.giveget.R
+import kotlinx.android.synthetic.main.activity_profil.*
+import kotlinx.android.synthetic.main.marker_popup.*
 import kotlinx.android.synthetic.main.marker_popup.view.*
 import org.w3c.dom.Comment
+import java.io.File
 
 class MapsFragment : Fragment() {
 
@@ -59,7 +55,10 @@ class MapsFragment : Fragment() {
                 val add_descr = dataSnapshot.child("beskrivelse").value.toString()
                 val add_lat = dataSnapshot.child("lat").value as Double
                 val add_long = dataSnapshot.child("long").value as Double
-                val marker = Marker(add_lat, add_long, add_title, add_descr)
+                val brukerID = dataSnapshot.child("brukerID").value.toString()
+                val brukernavn = dataSnapshot.child("brukernavn").value.toString()
+                val marker = Marker(add_lat, add_long, add_title, add_descr, brukerID, brukernavn)
+
                 markList += marker
 
 
@@ -70,8 +69,9 @@ class MapsFragment : Fragment() {
                                 markList[i].lat,
                                 markList[i].long
                             )
-                        ).title(markList[i].desc)
+                        ).title(markList[i].desc + "\n \n"  + markList[i].uname)
                     )
+                    gmark.snippet = markList[i].uid
                     gmark.tag = markList[i].title
                 }
 
@@ -81,6 +81,16 @@ class MapsFragment : Fragment() {
                     val aBuilder = AlertDialog.Builder(context).setView(popupDialog)
                     aBuilder.setTitle("${marker.tag}")
                     aBuilder.setMessage(marker.title)
+
+                    //Henter profilbilde fra firebase storage
+                    val storageRef = FirebaseStorage.getInstance().reference.child("image/${marker.snippet}")
+                    val localfile = File.createTempFile("tempImage", "jpg")
+                    storageRef.getFile(localfile).addOnSuccessListener {
+                        val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+                        popupDialog.pbView.setImageBitmap(bitmap)
+
+                    }
+                    //popupDialog.userView.setText()
                     val aDialog = aBuilder.show()
 
                     popupDialog.popup_btn.setOnClickListener{
@@ -88,6 +98,8 @@ class MapsFragment : Fragment() {
                             HER SKAL DET STARTES NY SAMTALE OG FLYTTES TIL CHATFRAGMENT.
                             MÅ SNAKKE MED JACOB OM HVORDAN
                         */
+                        Toast.makeText(context, brukerID, Toast.LENGTH_SHORT)
+                            .show()
 
                         aDialog.dismiss()
 
