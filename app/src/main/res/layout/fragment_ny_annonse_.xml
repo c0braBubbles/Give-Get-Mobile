@@ -125,19 +125,5 @@
 
     </RadioGroup>
 
-    <ImageButton
-        android:id="@+id/findPic"
-        android:layout_width="66dp"
-        android:layout_height="67dp"
-        android:layout_marginBottom="200dp"
-        android:backgroundTint="#2196F3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.849"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_camera"
-        app:tint="#050303"
-        tools:ignore="SpeakableTextPresentCheck" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
