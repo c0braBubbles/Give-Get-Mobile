@@ -10,10 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ListView
-import android.widget.SearchView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,7 +27,9 @@ import org.w3c.dom.Comment
 class Search : Fragment(R.layout.fragment_dashboard) {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter: RecyclerView.Adapter<ChatRecyclerAdapter.ViewHolder>?= null
+    //private var adapter: RecyclerView.Adapter<ChatRecyclerAdapter.ViewHolder>?= null
+    lateinit var adapter: ArrayAdapter<*>
+
 
     private lateinit var database: DatabaseReference
 
@@ -42,7 +41,7 @@ class Search : Fragment(R.layout.fragment_dashboard) {
         val v = inflater.inflate(R.layout.fragment_search, container, false)
 
 
-        val search_bar = search_view
+        //val search_bar = search_view
 
         val tittelList: MutableList<String> = ArrayList()
         val descList: MutableList<String> = ArrayList()
@@ -62,15 +61,34 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                 descList.add(add_desc)
 
 
-                val searchList = v.findViewById<RecyclerView>(R.id.search_list)
-                searchList.apply {
+                adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_list_item_1, tittelList)
+                val searchList = v.findViewById<ListView>(R.id.search_list)
+                searchList.adapter = adapter
+                /*searchList.apply {
                     layoutManager = LinearLayoutManager(this.context)
-                    adapter = RecyclerAdapter(tittelList, descList)
-                }
-                searchList.visibility = View.INVISIBLE
+                    //adapter = RecyclerAdapter(tittelList, descList)
+                    adapter = adapter
+                }*/
+                //searchList.visibility = View.INVISIBLE
 
 
                 // søke-algoritme
+                search_view.setOnQueryTextListener(object: SearchView.OnQueryTextListener,
+                    androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String): Boolean {
+                        if (tittelList.contains(query) || descList.contains(query)) {
+                            adapter.filter.filter(query)
+                        }
+                        else {
+                            Toast.makeText(context, "No Match found", Toast.LENGTH_LONG).show()
+                        }
+                        return false
+                    }
+                    override fun onQueryTextChange(newText: String): Boolean {
+                        adapter.filter.filter(newText)
+                        return false
+                    }
+                })
             }
 
 
