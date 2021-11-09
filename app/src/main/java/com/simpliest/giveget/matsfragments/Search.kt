@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -69,11 +70,12 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                 val add_desc = dataSnapshot.child("beskrivelse").value.toString()*/
                 val add_title = dataSnapshot.child("tittel").value.toString()
                 val add_descr = dataSnapshot.child("beskrivelse").value.toString()
+                val add_type = dataSnapshot.child("kategorier").value.toString()
                 val add_lat = dataSnapshot.child("lat").value as Double
                 val add_long = dataSnapshot.child("long").value as Double
                 val brukerID = dataSnapshot.child("brukerID").value.toString()
                 val brukernavn = dataSnapshot.child("brukernavn").value.toString()
-                val marker = Marker(add_lat, add_long, add_title, add_descr, brukerID, brukernavn)
+                val marker = Marker(add_lat, add_long, add_title, add_descr, brukerID, brukernavn,add_type)
                 markList += marker
 
                 tittelList.add(add_title)
@@ -120,7 +122,7 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                             fm.beginTransaction().replace(R.id.secondLayout, fragment).commit()
                             fragment.callback = OnMapReadyCallback {googleMap ->
                                 val newMarker = LatLng(markList[i].lat, markList[i].long)
-                                googleMap.addMarker(MarkerOptions().position(newMarker))
+                                googleMap.addMarker(MarkerOptions().position(newMarker).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
                                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(newMarker))
 
                                 googleMap!!.setOnMarkerClickListener { marker ->

@@ -16,8 +16,11 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -62,12 +65,12 @@ class MapsFragment : Fragment() {
 
                 val add_title = dataSnapshot.child("tittel").value.toString()
                 val add_descr = dataSnapshot.child("beskrivelse").value.toString()
+                val add_type = dataSnapshot.child("kategorier").value.toString()
                 val add_lat = dataSnapshot.child("lat").value as Double
                 val add_long = dataSnapshot.child("long").value as Double
                 val brukerID = dataSnapshot.child("brukerID").value.toString()
                 val brukernavn = dataSnapshot.child("brukernavn").value.toString()
-                val marker = Marker(add_lat, add_long, add_title, add_descr, brukerID, brukernavn)
-
+                val marker = Marker(add_lat, add_long, add_title, add_descr, brukerID, brukernavn, add_type)
                 markList += marker
 
 
@@ -82,6 +85,12 @@ class MapsFragment : Fragment() {
                     )
                     gmark.snippet = markList[i].uid
                     gmark.tag = markList[i].title
+
+                    if(markList[i].type == "Tilbud") {
+                        gmark.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                    } else if(markList[i].type == "Etterspørsel") {
+                        gmark.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    }
                 }
 
 
@@ -178,7 +187,7 @@ class MapsFragment : Fragment() {
 
 
         /*val sydney = LatLng(59.148066, 9.692892)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        googleMap.addMarker(MarkerOptions().position(sydney).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
 
         //tester markør-onclick DET FUNKET
