@@ -2,6 +2,7 @@ package com.simpliest.giveget.matsfragments
 
 import android.app.AlertDialog
 import android.content.ContentValues
+import android.graphics.BitmapFactory
 import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
@@ -22,20 +23,24 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.storage.FirebaseStorage
 import com.simpliest.giveget.*
 import com.simpliest.giveget.R
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.marker_popup.view.*
 import org.w3c.dom.Comment
+import java.io.File
 
 class Search : Fragment(R.layout.fragment_dashboard) {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
     //private var adapter: RecyclerView.Adapter<ChatRecyclerAdapter.ViewHolder>?= null
     lateinit var adapter: ArrayAdapter<*>
+    var markList = ArrayList<Marker>()
 
 
     private lateinit var database: DatabaseReference
@@ -60,12 +65,19 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                 Log.d(ContentValues.TAG, "onChildAdded:" + dataSnapshot.key!!)
 
 
+                /*val add_title = dataSnapshot.child("tittel").value.toString()
+                val add_desc = dataSnapshot.child("beskrivelse").value.toString()*/
                 val add_title = dataSnapshot.child("tittel").value.toString()
-                val add_desc = dataSnapshot.child("beskrivelse").value.toString()
-
+                val add_descr = dataSnapshot.child("beskrivelse").value.toString()
+                val add_lat = dataSnapshot.child("lat").value as Double
+                val add_long = dataSnapshot.child("long").value as Double
+                val brukerID = dataSnapshot.child("brukerID").value.toString()
+                val brukernavn = dataSnapshot.child("brukernavn").value.toString()
+                val marker = Marker(add_lat, add_long, add_title, add_descr, brukerID, brukernavn)
+                markList += marker
 
                 tittelList.add(add_title)
-                descList.add(add_desc)
+                descList.add(add_descr)
 
 
                 adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_list_item_1, tittelList)
@@ -84,7 +96,7 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                         }
                         else {
                             searchList.isVisible = false
-                            Toast.makeText(context, "No Match found", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, "Ingen treff funnet", Toast.LENGTH_LONG).show()
                         }
                         return false
                     }
@@ -99,15 +111,70 @@ class Search : Fragment(R.layout.fragment_dashboard) {
 
                 search_list.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
                     val selectedItemText = parent.getItemAtPosition(position)
-                    //textView.text = "Selected : $selectedItemText"
-                    Toast.makeText(context, "$selectedItemText", Toast.LENGTH_SHORT).show()
 
-                    val fragment = MapsFragment()
+                    for(i in markList.indices) {
+                        if(markList[i].title == selectedItemText || markList[i].desc == selectedItemText) {
+                            Toast.makeText(context, "lat: " + markList[i].lat, Toast.LENGTH_SHORT).show()
+                            val fragment = MapsFragment()
+                            val fm: FragmentManager = (context as AppCompatActivity).supportFragmentManager
+                            fm.beginTransaction().replace(R.id.secondLayout, fragment).commit()
+                            fragment.callback = OnMapReadyCallback {googleMap ->
+                                val newMarker = LatLng(markList[i].lat, markList[i].long)
+                                googleMap.addMarker(MarkerOptions().position(newMarker))
+                                googleMap.moveCamera(CameraUpdateFactory.newLatLng(newMarker))
+
+                                googleMap!!.setOnMarkerClickListener { marker ->
+                                    val popupDialog = LayoutInflater.from(fragment.context).inflate(R.layout.marker_popup, null)
+                                    val builder = AlertDialog.Builder(fragment.context).setView(popupDialog)
+                                    builder.setTitle(markList[i].title)
+                                    builder.setMessage(markList[i].desc)
+
+                                    //Henter profilbilde fra firebase storage
+                                    val storageRef = FirebaseStorage.getInstance().reference.child("image/${markList[i].uid}")
+                                    val localfile = File.createTempFile("tempImage", "jpg")
+                                    storageRef.getFile(localfile).addOnSuccessListener {
+                                        val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+                                        popupDialog.pbView.setImageBitmap(bitmap)
+                                    }
+
+                                    val dialog = builder.show()
+
+                                    popupDialog.popup_btn.setOnClickListener {
+                                        val currentUserUid = FirebaseAuth.getInstance().getCurrentUser()?.getUid()
+                                        var currentUsername = "blank"
+                                        database = FirebaseDatabase.getInstance().getReference("Samtaler")
+
+                                        FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
+                                            val samtale = MapsFragment.Samtale(
+                                                markList[i].uname,
+                                                currentUsername,
+                                                markList[i].title
+                                            )
+
+                                            database.child(samtale.annonse_tittel).setValue(samtale).addOnSuccessListener {
+                                                dialog.dismiss()
+                                                val fragment2 = chatFragment(markList[i].uname, markList[i].title)
+                                                //val fm: FragmentManager = (fragment.context as AppCompatActivity).supportFragmentManager
+                                                fm.beginTransaction().replace(R.id.secondLayout, fragment2).commit()
+                                            }.addOnFailureListener {
+                                                Toast.makeText(context, "Noe gikk galt når du prøvde å starte samtale med " + samtale.add_eier, Toast.LENGTH_LONG)
+                                            }
+                                        }
+                                    }
+
+                                    true
+                                }
+                            }
+
+                        }
+                    }
+
+                    /*val fragment = MapsFragment()
                     fragment.callback = OnMapReadyCallback {googleMap ->
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(1.0, 1.0)))
+
                     }
                     val fm: FragmentManager = (context as AppCompatActivity).supportFragmentManager
-                    fm.beginTransaction().replace(R.id.secondLayout, fragment).commit()
+                    fm.beginTransaction().replace(R.id.secondLayout, fragment).commit()*/
                 }
             }
 
