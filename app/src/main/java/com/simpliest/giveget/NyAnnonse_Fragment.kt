@@ -151,12 +151,6 @@ class NyAnnonse_fragment: Fragment() {
                     lat.toString(),
                     Toast.LENGTH_SHORT
                 ).show()
-            } else if (it == null) {
-                Toast.makeText(
-                    this.context,
-                    "noe gikk galt",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
     }
