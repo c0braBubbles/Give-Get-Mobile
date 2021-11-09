@@ -20,6 +20,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.storage.FirebaseStorage
@@ -32,6 +33,12 @@ import org.w3c.dom.Comment
 import java.io.File
 
 class MapsFragment : Fragment() {
+
+    data class Samtale(
+        val add_eier: String,
+        val kontakteren: String,
+        val annonse_tittel: String
+    )
 
     private lateinit var database: DatabaseReference
 
@@ -79,6 +86,14 @@ class MapsFragment : Fragment() {
 
 
                 googleMap!!.setOnMarkerClickListener { marker ->
+                    var bnavn: String = ""
+                    for(i in markList.indices) {
+                        if(markList[i].uid == marker.snippet) {
+                            bnavn = markList[i].uname
+                        }
+                    }
+
+
                     val popupDialog = LayoutInflater.from(context).inflate(R.layout.marker_popup, null)
                     val aBuilder = AlertDialog.Builder(context).setView(popupDialog)
                     aBuilder.setTitle("${marker.tag}")
@@ -90,24 +105,27 @@ class MapsFragment : Fragment() {
                     storageRef.getFile(localfile).addOnSuccessListener {
                         val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
                         popupDialog.pbView.setImageBitmap(bitmap)
-
                     }
-                    //popupDialog.userView.setText()
+
                     val aDialog = aBuilder.show()
 
                     popupDialog.popup_btn.setOnClickListener{
-                        /*
-                            HER SKAL DET STARTES NY SAMTALE OG FLYTTES TIL CHATFRAGMENT.
-                            MÅ SNAKKE MED JACOB OM HVORDAN
-                        */
-                        Toast.makeText(context, brukerID, Toast.LENGTH_SHORT)
-                            .show()
+                        val currentUserUid = FirebaseAuth.getInstance().getCurrentUser()?.getUid()
+                        var currentUsername = "blank"
+                        database = FirebaseDatabase.getInstance().getReference("Samtaler")
 
-                        aDialog.dismiss()
+                        FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
+                            val samtale = Samtale(bnavn, currentUsername, marker.tag as String)
 
-                        val fragment = chatFragment("bernt", marker.tag.toString())
-                        val fm: FragmentManager = (context as AppCompatActivity).supportFragmentManager
-                        fm.beginTransaction().replace(R.id.secondLayout, fragment).commit()
+                            database.child(samtale.annonse_tittel).setValue(samtale).addOnSuccessListener {
+                                aDialog.dismiss()
+                                val fragment = chatFragment(bnavn, marker.tag.toString())
+                                val fm: FragmentManager = (context as AppCompatActivity).supportFragmentManager
+                                fm.beginTransaction().replace(R.id.secondLayout, fragment).commit()
+                            }.addOnFailureListener {
+                                Toast.makeText(context, "Noe gikk galt når du prøvde å starte samtale med " + samtale.add_eier, Toast.LENGTH_LONG)
+                            }
+                        }
                     }
 
                     true
