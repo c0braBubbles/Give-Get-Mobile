@@ -23,7 +23,7 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
 
     var sendList: MutableList<String> = ArrayList()
     var receiveList: MutableList<String> = ArrayList()
-    val currentUserUid = FirebaseAuth.getInstance().currentUser?.getUid()
+    val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
     var currentUsername = ""
 
 
@@ -75,15 +75,16 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
                     val nyMld = snapshot.child("message").value.toString()
                     val sender = snapshot.child("sender").value.toString()
                     val receiver = snapshot.child("receiver").value.toString()
-
-                    if (sender == currentUsername && receiver == samtalePartner) {
-                        sendList.add(nyMld)
-                        receiveList.add("")
-                    } else if (sender == samtalePartner && receiver == currentUsername) {
-                        receiveList.add(nyMld)
-                        sendList.add("")
+                    val annonse = snapshot.child("annonse").value.toString()
+                    if (annonse == annonseNavn) {
+                        if (sender == currentUsername && receiver == samtalePartner) {
+                            sendList.add(nyMld)
+                            receiveList.add("")
+                        } else if (sender == samtalePartner && receiver == currentUsername) {
+                            receiveList.add(nyMld)
+                            sendList.add("")
+                        }
                     }
-
                     adapter = MsgRecyclerAdapter(sendList, receiveList)
                     rView.adapter = adapter
 
@@ -115,7 +116,7 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
             if ( melding.trim().isEmpty() ) return@setOnClickListener
 
             database = FirebaseDatabase.getInstance().getReference("mobilMelding")
-            val meldingInfo = Message(melding,currentUsername,samtalePartner)
+            val meldingInfo = Message(melding,currentUsername,samtalePartner, annonseNavn)
             database.push().setValue(meldingInfo).addOnSuccessListener {
                 sendTxt.text.clear()
             }.addOnFailureListener {

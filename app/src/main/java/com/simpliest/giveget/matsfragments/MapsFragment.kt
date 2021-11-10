@@ -45,6 +45,9 @@ class MapsFragment : Fragment() {
 
     private lateinit var database: DatabaseReference
 
+    val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
+    var currentUsername = ""
+
     public var callback = OnMapReadyCallback { googleMap ->
         /**
          * Manipulates the map once available.
@@ -119,14 +122,14 @@ class MapsFragment : Fragment() {
                     val aDialog = aBuilder.show()
 
                     popupDialog.popup_btn.setOnClickListener{
-                        val currentUserUid = FirebaseAuth.getInstance().getCurrentUser()?.getUid()
-                        var currentUsername = "blank"
+                        //val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
+                        //var currentUsername = ""
                         database = FirebaseDatabase.getInstance().getReference("Samtaler")
 
                         FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
-                            val samtale = Samtale(bnavn, currentUsername, marker.tag as String)
+                            val samtale = Samtale(bnavn, it.child("username").value.toString(), marker.tag as String)
 
-                            database.child(samtale.annonse_tittel).setValue(samtale).addOnSuccessListener {
+                            database.push().setValue(samtale).addOnSuccessListener {
                                 aDialog.dismiss()
                                 val fragment = chatFragment(bnavn, marker.tag.toString())
                                 val fm: FragmentManager = (context as AppCompatActivity).supportFragmentManager
@@ -135,6 +138,8 @@ class MapsFragment : Fragment() {
                                 Toast.makeText(context, "Noe gikk galt når du prøvde å starte samtale med " + samtale.add_eier, Toast.LENGTH_LONG)
                             }
                         }
+
+
                     }
 
                     true
