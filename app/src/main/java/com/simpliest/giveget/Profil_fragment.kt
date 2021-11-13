@@ -1,7 +1,6 @@
 package com.simpliest.giveget
 
 import android.app.Activity.RESULT_OK
-import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -17,16 +16,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 //import com.google.firebase.storage
 import kotlinx.android.synthetic.main.activity_profil.*
 import java.io.File
-import java.net.URI
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -46,7 +41,7 @@ class Profil_fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val v =  inflater.inflate(R.layout.activity_profil, container, false)
+        val v =  inflater.inflate(R.layout.fragment_profil, container, false)
 
 
         // Log-ut med Firebase Auth

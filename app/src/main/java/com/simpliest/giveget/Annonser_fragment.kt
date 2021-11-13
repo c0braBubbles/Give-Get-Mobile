@@ -2,8 +2,6 @@ package com.simpliest.giveget
 
 import android.content.ContentValues
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -16,24 +14,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.activity_annonser.*
+import kotlinx.android.synthetic.main.fragment_annonser.*
 import kotlinx.android.synthetic.main.activity_main2.*
-import android.widget.SimpleAdapter
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import kotlinx.android.synthetic.main.activity_annonser.view.*
+import kotlinx.android.synthetic.main.fragment_annonser.view.*
 import com.google.firebase.database.FirebaseDatabase
 
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.activity_profil.*
+import kotlinx.android.synthetic.main.fragment_profil.*
 import kotlinx.android.synthetic.main.card_layout.*
-import java.io.File
 
 
 class Annonser_fragment : Fragment() {
@@ -63,7 +56,7 @@ class Annonser_fragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        val v = inflater.inflate(R.layout.activity_annonser, container, false)
+        val v = inflater.inflate(R.layout.fragment_annonser, container, false)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.activity)
         checkLocationPermissions()
