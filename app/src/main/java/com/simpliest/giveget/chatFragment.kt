@@ -66,7 +66,7 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
             currentUsername = it.child("username").value.toString()
         }*/
 
-        FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
+        FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid.toString()).get().addOnSuccessListener {
             currentUsername = it.child("username").value.toString()
 
 

@@ -126,7 +126,7 @@ class MapsFragment : Fragment() {
                         //var currentUsername = ""
                         database = FirebaseDatabase.getInstance().getReference("Samtaler")
 
-                        FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
+                        FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid.toString()).get().addOnSuccessListener {
                             val samtale = Samtale(bnavn, it.child("username").value.toString(), marker.tag as String)
 
                             database.push().setValue(samtale).addOnSuccessListener {

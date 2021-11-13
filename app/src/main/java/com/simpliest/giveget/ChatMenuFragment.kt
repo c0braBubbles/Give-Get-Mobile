@@ -49,7 +49,7 @@ class ChatMenuFragment : Fragment() {
         rView.layoutManager = layoutManager
 
         //val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
-        FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
+        FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid.toString()).get().addOnSuccessListener {
             currentUsername = it.child("username").value.toString()
 
 
