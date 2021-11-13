@@ -45,7 +45,7 @@ class Search : Fragment(R.layout.fragment_dashboard) {
 
 
     private lateinit var database: DatabaseReference
-
+    lateinit var currentUsername : String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         SavedInstance: Bundle?
@@ -82,7 +82,7 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                 descList.add(add_descr)
 
 
-                adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_list_item_1, tittelList)
+                adapter = ArrayAdapter<String>(requireActivity(), android.R.layout.simple_list_item_1, tittelList)
                 val searchList = v.findViewById<ListView>(R.id.search_list)
                 searchList.adapter = adapter
                 searchList.isVisible = false
@@ -142,18 +142,17 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                                     val dialog = builder.show()
 
                                     popupDialog.popup_btn.setOnClickListener {
-                                        val currentUserUid = FirebaseAuth.getInstance().getCurrentUser()?.getUid()
-                                        var currentUsername = "blank"
+                                        val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
                                         database = FirebaseDatabase.getInstance().getReference("Samtaler")
 
-                                        FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
+                                        FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid.toString()).get().addOnSuccessListener {
                                             val samtale = MapsFragment.Samtale(
                                                 markList[i].uname,
-                                                currentUsername,
+                                                it.child("username").value.toString(),
                                                 markList[i].title
                                             )
 
-                                            database.child(samtale.annonse_tittel).setValue(samtale).addOnSuccessListener {
+                                            database.push().setValue(samtale).addOnSuccessListener {
                                                 dialog.dismiss()
                                                 val fragment2 = chatFragment(markList[i].uname, markList[i].title)
                                                 //val fm: FragmentManager = (fragment.context as AppCompatActivity).supportFragmentManager
