@@ -29,7 +29,7 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.storage.FirebaseStorage
 import com.simpliest.giveget.*
 import com.simpliest.giveget.R
-import kotlinx.android.synthetic.main.activity_profil.*
+import kotlinx.android.synthetic.main.fragment_profil.*
 import kotlinx.android.synthetic.main.marker_popup.*
 import kotlinx.android.synthetic.main.marker_popup.view.*
 import org.w3c.dom.Comment
