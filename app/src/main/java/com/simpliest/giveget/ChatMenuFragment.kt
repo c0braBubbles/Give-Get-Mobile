@@ -25,7 +25,6 @@ class ChatMenuFragment : Fragment() {
     val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
     lateinit var currentUsername : String
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,17 +40,13 @@ class ChatMenuFragment : Fragment() {
         liste1.clear()
         liste2.clear()
 
-
         val v = inflater.inflate(R.layout.chat_menu_fragment, container, false)
-        // Inflate the layout for this fragment
 
         val rView = v.findViewById<RecyclerView>(R.id.chat_menu_list)
         rView.layoutManager = layoutManager
 
-        //val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
         FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid.toString()).get().addOnSuccessListener {
             currentUsername = it.child("username").value.toString()
-
 
             val childEventListener = object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -69,10 +64,8 @@ class ChatMenuFragment : Fragment() {
 
                     }
 
-
                     adapter = ChatRecyclerAdapter(requireActivity(), liste1, liste2)
                     rView.adapter = adapter
-
                 }
 
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -97,14 +90,7 @@ class ChatMenuFragment : Fragment() {
                 .addChildEventListener(childEventListener)
         }
 
-        //val rView = v.findViewById<RecyclerView>(R.id.chat_menu_list)
-        //rView.layoutManager = layoutManager
-
-        //adapter = ChatRecyclerAdapter(requireActivity(),liste1, liste2)
-        //rView.adapter = adapter
-
         return v
     }
-
 
 }

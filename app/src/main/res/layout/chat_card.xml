@@ -18,7 +18,6 @@
         android:padding="16dp" >
 
 
-
     <ImageView
         android:id="@+id/chat_card_image"
         android:layout_width="50dp"

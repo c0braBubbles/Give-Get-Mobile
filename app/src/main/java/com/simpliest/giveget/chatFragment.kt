@@ -51,24 +51,11 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
         val rView = v.findViewById<RecyclerView>(R.id.msg_list)
         rView.layoutManager = layoutManager
 
-        //adapter = MsgRecyclerAdapter(sendList, receiveList)
-        //rView.adapter = adapter
-
-
-
-
         val sendBtn = v.findViewById<Button>(R.id.sendMsgBtn)
         val sendTxt = v.findViewById<EditText>(R.id.writeMsgField)
 
-        /*val currentUserUid = FirebaseAuth.getInstance().currentUser?.getUid()
-        var currentUsername = "blank"
-        FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
-            currentUsername = it.child("username").value.toString()
-        }*/
-
         FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid.toString()).get().addOnSuccessListener {
             currentUsername = it.child("username").value.toString()
-
 
             val childEventListener = object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -123,18 +110,9 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
                 Toast.makeText(this.context, "Kunne ikke sende melding", Toast.LENGTH_SHORT).show()
             }
 
-
-
         }
 
-
-
-
-        //adapter = MsgRecyclerAdapter(sendList, receiveList)
-        //rView.adapter = adapter
-        // Inflate the layout for this fragment
         return v
     }
-
 
 }

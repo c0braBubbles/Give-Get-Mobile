@@ -43,5 +43,4 @@ class MsgRecyclerAdapter(private val senderList : MutableList<String>, private v
     }
 
 
-
 }

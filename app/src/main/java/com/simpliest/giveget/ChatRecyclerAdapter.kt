@@ -14,14 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.appcompat.app.AppCompatActivity
 
 
-
-
-
-
 class ChatRecyclerAdapter(private val context: Context, private val nameList : MutableList<String>, private val adList : MutableList<String>)
     : RecyclerView.Adapter<ChatRecyclerAdapter.ViewHolder>() {
-
-
 
 
     override fun onCreateViewHolder(
@@ -57,7 +51,6 @@ class ChatRecyclerAdapter(private val context: Context, private val nameList : M
                 val samtaleFragment = chatFragment(nameList[position], adList[position])
                 val fm : FragmentManager = (context as AppCompatActivity).supportFragmentManager
                 fm.beginTransaction().replace(R.id.secondLayout, samtaleFragment).commit()
-
 
 
                 Toast.makeText(itemView.context, nameList[position], Toast.LENGTH_LONG).show()
