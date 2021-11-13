@@ -23,7 +23,7 @@ class ChatMenuFragment : Fragment() {
     var liste1: MutableList<String> = ArrayList()
     var liste2: MutableList<String> = ArrayList()
     val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
-    var currentUsername = ""
+    lateinit var currentUsername : String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

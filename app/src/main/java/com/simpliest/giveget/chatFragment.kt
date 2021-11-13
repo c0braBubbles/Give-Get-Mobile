@@ -24,7 +24,7 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
     var sendList: MutableList<String> = ArrayList()
     var receiveList: MutableList<String> = ArrayList()
     val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
-    var currentUsername = ""
+    lateinit var currentUsername : String
 
 
     //val listenMin: MutableList<String> = ArrayList()

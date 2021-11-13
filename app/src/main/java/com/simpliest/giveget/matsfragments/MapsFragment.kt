@@ -46,7 +46,7 @@ class MapsFragment : Fragment() {
     private lateinit var database: DatabaseReference
 
     val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
-    var currentUsername = ""
+    lateinit var currentUsername : String
 
     public var callback = OnMapReadyCallback { googleMap ->
         /**
