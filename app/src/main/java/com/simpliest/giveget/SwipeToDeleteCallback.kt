@@ -7,7 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-
+//Denne klassen er en tilpasset versjon av en klasse funnet på nettet
 abstract class SwipeToDeleteCallback(context: Context?) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     private val deleteIcon = context?.let { ContextCompat.getDrawable(it, R.drawable.baseline_delete_white_24dp) }
@@ -18,7 +18,6 @@ abstract class SwipeToDeleteCallback(context: Context?) : ItemTouchHelper.Simple
     private val clearPaint = Paint().apply {
         xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
     }
-    // Let's draw our delete view
     override fun onChildDraw(
         c: Canvas,
         recyclerView: RecyclerView,
@@ -31,21 +30,21 @@ abstract class SwipeToDeleteCallback(context: Context?) : ItemTouchHelper.Simple
         val itemView = viewHolder.itemView
         val itemHeight = itemView.bottom - itemView.top
 
-        // Draw the red delete background
+        // Rød bakgrunn
         background.color = backgroundColor
         background.setBounds(itemView.right + dX.toInt(), itemView.top, itemView.right, itemView.bottom)
         if (c != null) {
             background.draw(c)
         }
 
-        // Calculate position of delete icon
+        // Posisjon til slett ikon
         val iconTop = itemView.top + (itemHeight - intrinsicHeight!!) / 2
         val iconMargin = (itemHeight - intrinsicHeight) / 2
         val iconLeft = itemView.right - iconMargin - intrinsicHeight
         val iconRight = itemView.right - iconMargin
         val iconBottom = iconTop + intrinsicHeight
 
-        // Draw the delete icon
+        // Slett ikon
         if (deleteIcon != null) {
             deleteIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
         }

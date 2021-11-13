@@ -25,7 +25,9 @@ import com.google.firebase.auth.FirebaseAuth
 
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.activity_profil.*
+import kotlinx.android.synthetic.main.fragment_ny_annonse_.view.*
 
 
 class NyAnnonse_fragment: Fragment() {
@@ -48,10 +50,11 @@ class NyAnnonse_fragment: Fragment() {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_ny_annonse_, container, false)
         val btn = v.findViewById<ImageButton>(R.id.backBtn2)
+        v.publiserbtn.setClickable(false)
         btn.setOnClickListener {
             val secondFragment = Annonser_fragment()
             val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
-            transaction.replace(R.id.secondLayout,secondFragment)
+            transaction.replace(R.id.secondLayout, secondFragment)
             transaction.commit()
         }
 
@@ -68,66 +71,86 @@ class NyAnnonse_fragment: Fragment() {
         var kategorier = "";
         val brukerID = FirebaseAuth.getInstance().currentUser!!.uid
 
+
+
+
+
         //listener for "Publiser annonse" knappen
-        publiserBtn.setOnClickListener {
-            //Konstruktør for annonsene
-            data class Annonse(
-                val tittel: String, val beskrivelse: String, val id: String,
-                val kategorier: String, val lat: Double, val long: Double, val brukerID: String,
-                val brukernavn: String
-            )
 
-            //henter og gjør om tittel og beskrivelse til String
-            val title = sendTitle.text.toString()
-            val desc = sendDesc.text.toString()
-
-            //Sjekker om annonse er tilbud eller etterspørsel
-            if (radioTilbud.isChecked) {
-                kategorier = "Tilbud";
-            } else if(radioEtterspørsel.isChecked) {
-                kategorier = "Etterspørsel";
-            }
-
-            //genererer en random ID, brukes som "Key" til den enkelte annonsen
-            annonseID = UUID.randomUUID().toString()
-
-            //Referanse til der Annonsen skal lagres
-            database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
-
-            //Henter innloget brukers brukernavn
-            val currentUserUid = FirebaseAuth.getInstance().getCurrentUser()?.getUid();
-            var currentUsername = "blank"
-            FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid).get().addOnSuccessListener {
-                currentUsername = it.child("username").value.toString()
-
-                //Lager et annonse objekt ved bruk av konstruktøren
-                val annonse = Annonse(
-                    title,
-                    desc,
-                    annonseID,
-                    kategorier,
-                    lat,
-                    long,
-                    brukerID,
-                    currentUsername
+            publiserBtn.setOnClickListener {
+                if (sendDesc.text.isNotEmpty() && sendTitle.text.isNotEmpty()) {
+                //Konstruktør for annonsene
+                data class Annonse(
+                    val tittel: String, val beskrivelse: String, val id: String,
+                    val kategorier: String, val lat: Double, val long: Double, val brukerID: String,
+                    val brukernavn: String
                 )
 
-                database.child(annonseID).setValue(annonse).addOnSuccessListener {
-                    sendTitle.text.clear()
-                    sendDesc.text.clear()
+                //henter og gjør om tittel og beskrivelse til String
+                val title = sendTitle.text.toString()
+                val desc = sendDesc.text.toString()
 
-                }.addOnFailureListener {
-                    //Gjør dette, dersom det feiler
+                //Sjekker om annonse er tilbud eller etterspørsel
+                if (radioTilbud.isChecked) {
+                    kategorier = "Tilbud";
+                } else if (radioEtterspørsel.isChecked) {
+                    kategorier = "Etterspørsel";
+                }
+
+                //genererer en random ID, brukes som "Key" til den enkelte annonsen
+                annonseID = UUID.randomUUID().toString()
+
+                //Referanse til der Annonsen skal lagres
+                database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
+
+                //Henter innloget brukers brukernavn
+                val currentUserUid = FirebaseAuth.getInstance().getCurrentUser()?.getUid();
+                var currentUsername = "blank"
+                FirebaseDatabase.getInstance().getReference("mobilBruker/" + currentUserUid).get()
+                    .addOnSuccessListener {
+                        currentUsername = it.child("username").value.toString()
+
+                        //Lager et annonse objekt ved bruk av konstruktøren
+                        val annonse = Annonse(
+                            title,
+                            desc,
+                            annonseID,
+                            kategorier,
+                            lat,
+                            long,
+                            brukerID,
+                            currentUsername
+                        )
+
+                        database.child(annonseID).setValue(annonse).addOnSuccessListener {
+                            sendTitle.text.clear()
+                            sendDesc.text.clear()
+                            //Navigerer til Annonser fragment etter publisering
+                            val secondFragment = Annonser_fragment()
+                            val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
+                            transaction.replace(R.id.secondLayout, secondFragment)
+                            transaction.commit()
+
+                        }.addOnFailureListener {
+                            //Gjør dette, dersom det feiler
+                            Toast.makeText(
+                                this.context,
+                                "Kunne ikke opprette annonse",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+            } else {
                     Toast.makeText(
                         this.context,
-                        "Kunne ikke opprette annonse",
+                        "Du må fylle inn alle feltene!",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-            }
         }
         return v
     }
+
 
 
     fun checkLocationPermissions() {
@@ -145,6 +168,9 @@ class NyAnnonse_fragment: Fragment() {
             if(it != null) {
                 lat = it.latitude.toDouble()
                 long = it.longitude.toDouble()
+
+
+                publiserbtn.setClickable(true)
 
                 Toast.makeText(
                     this.context,
