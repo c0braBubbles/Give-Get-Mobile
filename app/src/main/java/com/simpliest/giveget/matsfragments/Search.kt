@@ -82,7 +82,7 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                 descList.add(add_descr)
 
 
-                adapter = ArrayAdapter<String>(requireActivity(), android.R.layout.simple_list_item_1, tittelList)
+                adapter = ArrayAdapter<String>(context!!, android.R.layout.simple_list_item_1, tittelList)
                 val searchList = v.findViewById<ListView>(R.id.search_list)
                 searchList.adapter = adapter
                 searchList.isVisible = false
