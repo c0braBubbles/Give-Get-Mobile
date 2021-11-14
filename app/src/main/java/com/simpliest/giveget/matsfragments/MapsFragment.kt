@@ -165,22 +165,7 @@ class MapsFragment : Fragment() {
                                     //håndter feil
                                 }
                             })
-                            /*if (!finnesAllerede) {
-                                database.push().setValue(samtale).addOnSuccessListener {
-                                    aDialog.dismiss()
-                                    val fragment = chatFragment(bnavn, marker.tag.toString())
-                                    val fm: FragmentManager =
-                                        (context as AppCompatActivity).supportFragmentManager
-                                    fm.beginTransaction().replace(R.id.secondLayout, fragment)
-                                        .commit()
-                                }.addOnFailureListener {
-                                    Toast.makeText(
-                                        context,
-                                        "Noe gikk galt når du prøvde å starte samtale med " + samtale.add_eier,
-                                        Toast.LENGTH_LONG
-                                    )
-                                }
-                            }*/
+
                         }
 
 

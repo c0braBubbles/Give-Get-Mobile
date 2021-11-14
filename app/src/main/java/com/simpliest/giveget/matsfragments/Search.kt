@@ -151,14 +151,38 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                                                 markList[i].title
                                             )
 
-                                            database.push().setValue(samtale).addOnSuccessListener {
-                                                dialog.dismiss()
-                                                val fragment2 = chatFragment(markList[i].uname, markList[i].title)
-                                                //val fm: FragmentManager = (fragment.context as AppCompatActivity).supportFragmentManager
-                                                fm.beginTransaction().replace(R.id.secondLayout, fragment2).commit()
-                                            }.addOnFailureListener {
-                                                Toast.makeText(context, "Noe gikk galt når du prøvde å starte samtale med " + samtale.add_eier, Toast.LENGTH_LONG)
-                                            }
+                                            database.addValueEventListener(object : ValueEventListener {
+                                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+
+                                                    for (postSnapshot in dataSnapshot.children) {
+                                                        if (postSnapshot.child("add_eier").value.toString() == samtale.add_eier &&
+                                                                postSnapshot.child("annonse_tittel").value.toString() == samtale.annonse_tittel &&
+                                                                postSnapshot.child("kontakteren").value.toString() == samtale.kontakteren ||
+                                                                postSnapshot.child("add_eier").value.toString() == samtale.kontakteren) {
+                                                                    
+                                                            return
+                                                        }
+                                                    }
+
+                                                    database.push().setValue(samtale).addOnSuccessListener {
+                                                        dialog.dismiss()
+                                                        val fragment2 = chatFragment(markList[i].uname, markList[i].title)
+                                                        //val fm: FragmentManager = (fragment.context as AppCompatActivity).supportFragmentManager
+                                                        fm.beginTransaction().replace(R.id.secondLayout, fragment2).commit()
+                                                    }.addOnFailureListener {
+                                                        Toast.makeText(context, "Noe gikk galt når du prøvde å starte samtale med " + samtale.add_eier, Toast.LENGTH_LONG)
+                                                    }
+
+                                                }
+
+                                                override fun onCancelled(databseError: DatabaseError) {
+                                                    TODO("Not yet implemented")
+                                                }
+
+
+                                            })
+
                                         }
                                     }
 
