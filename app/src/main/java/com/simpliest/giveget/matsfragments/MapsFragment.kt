@@ -129,14 +129,58 @@ class MapsFragment : Fragment() {
                         FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid.toString()).get().addOnSuccessListener {
                             val samtale = Samtale(bnavn, it.child("username").value.toString(), marker.tag as String)
 
-                            database.push().setValue(samtale).addOnSuccessListener {
-                                aDialog.dismiss()
-                                val fragment = chatFragment(bnavn, marker.tag.toString())
-                                val fm: FragmentManager = (context as AppCompatActivity).supportFragmentManager
-                                fm.beginTransaction().replace(R.id.secondLayout, fragment).commit()
-                            }.addOnFailureListener {
-                                Toast.makeText(context, "Noe gikk galt når du prøvde å starte samtale med " + samtale.add_eier, Toast.LENGTH_LONG)
-                            }
+
+                            database.addValueEventListener(object : ValueEventListener {
+                                override fun onDataChange(dataSnapshot : DataSnapshot) {
+
+                                    for (postSnapshot in dataSnapshot.children) {
+                                        if (postSnapshot.child("add_eier").value.toString() == samtale.add_eier &&
+                                            postSnapshot.child("annonse_tittel").value.toString() == samtale.annonse_tittel &&
+                                            postSnapshot.child("kontakteren").value.toString() == samtale.kontakteren ||
+                                            postSnapshot.child("add_eier").value.toString() == samtale.kontakteren
+                                        ) {
+
+                                            Toast.makeText(context, "Kan ikke starte samtale knyttet til denne annonsen",
+                                                Toast.LENGTH_SHORT).show()
+                                            return
+                                        }
+                                    }
+                                    database.push().setValue(samtale).addOnSuccessListener {
+                                        aDialog.dismiss()
+                                        val fragment = chatFragment(bnavn, marker.tag.toString())
+                                        val fm: FragmentManager =
+                                            (context as AppCompatActivity).supportFragmentManager
+                                        fm.beginTransaction().replace(R.id.secondLayout, fragment)
+                                            .commit()
+                                    }.addOnFailureListener {
+                                        Toast.makeText(
+                                            context,
+                                            "Noe gikk galt når du prøvde å starte samtale med " + samtale.add_eier,
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
+
+                                }
+                                override fun onCancelled(databaseError: DatabaseError) {
+                                    //håndter feil
+                                }
+                            })
+                            /*if (!finnesAllerede) {
+                                database.push().setValue(samtale).addOnSuccessListener {
+                                    aDialog.dismiss()
+                                    val fragment = chatFragment(bnavn, marker.tag.toString())
+                                    val fm: FragmentManager =
+                                        (context as AppCompatActivity).supportFragmentManager
+                                    fm.beginTransaction().replace(R.id.secondLayout, fragment)
+                                        .commit()
+                                }.addOnFailureListener {
+                                    Toast.makeText(
+                                        context,
+                                        "Noe gikk galt når du prøvde å starte samtale med " + samtale.add_eier,
+                                        Toast.LENGTH_LONG
+                                    )
+                                }
+                            }*/
                         }
 
 
