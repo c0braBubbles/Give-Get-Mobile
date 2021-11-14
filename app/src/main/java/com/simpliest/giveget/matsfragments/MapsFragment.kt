@@ -148,8 +148,7 @@ class MapsFragment : Fragment() {
                                     database.push().setValue(samtale).addOnSuccessListener {
                                         aDialog.dismiss()
                                         val fragment = chatFragment(bnavn, marker.tag.toString())
-                                        val fm: FragmentManager =
-                                            (context as AppCompatActivity).supportFragmentManager
+                                        val fm: FragmentManager = (context as AppCompatActivity).supportFragmentManager
                                         fm.beginTransaction().replace(R.id.secondLayout, fragment)
                                             .commit()
                                     }.addOnFailureListener {
@@ -165,12 +164,8 @@ class MapsFragment : Fragment() {
                                     //håndter feil
                                 }
                             })
-
                         }
-
-
                     }
-
                     true
                 }
             }
