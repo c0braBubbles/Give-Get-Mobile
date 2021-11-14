@@ -50,7 +50,6 @@ class NyAnnonse_fragment: Fragment() {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_ny_annonse_, container, false)
         val btn = v.findViewById<ImageButton>(R.id.backBtn2)
-        v.publiserbtn.setClickable(false)
         btn.setOnClickListener {
             val secondFragment = Annonser_fragment()
             val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
@@ -61,6 +60,7 @@ class NyAnnonse_fragment: Fragment() {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.activity)
         checkLocationPermissions()
+
 
 
         val publiserBtn = v.findViewById<Button>(R.id.publiserbtn)
@@ -78,6 +78,7 @@ class NyAnnonse_fragment: Fragment() {
         //listener for "Publiser annonse" knappen
 
             publiserBtn.setOnClickListener {
+                //Sjekker at tekstfeltene ikke er tomme
                 if (sendDesc.text.isNotEmpty() && sendTitle.text.isNotEmpty()) {
                 //Konstruktør for annonsene
                 data class Annonse(
@@ -121,21 +122,30 @@ class NyAnnonse_fragment: Fragment() {
                             brukerID,
                             currentUsername
                         )
+                        //Sjekker om posisjon er tillatt
+                        if (lat != 0.0 && long != 0.0) {
+                            database.child(annonseID).setValue(annonse).addOnSuccessListener {
+                                sendTitle.text.clear()
+                                sendDesc.text.clear()
+                                //Navigerer til Annonser fragment etter publisering
+                                val secondFragment = Annonser_fragment()
+                                val transaction: FragmentTransaction =
+                                    parentFragmentManager!!.beginTransaction()
+                                transaction.replace(R.id.secondLayout, secondFragment)
+                                transaction.commit()
 
-                        database.child(annonseID).setValue(annonse).addOnSuccessListener {
-                            sendTitle.text.clear()
-                            sendDesc.text.clear()
-                            //Navigerer til Annonser fragment etter publisering
-                            val secondFragment = Annonser_fragment()
-                            val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
-                            transaction.replace(R.id.secondLayout, secondFragment)
-                            transaction.commit()
-
-                        }.addOnFailureListener {
-                            //Gjør dette, dersom det feiler
+                            }.addOnFailureListener {
+                                //Gjør dette, dersom det feiler
+                                Toast.makeText(
+                                    this.context,
+                                    "Kunne ikke opprette annonse",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        } else {
                             Toast.makeText(
                                 this.context,
-                                "Kunne ikke opprette annonse",
+                                "Posisjon er ikke aktivert, Vennligst tillat posisjon i innstillinger" ,
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -169,8 +179,6 @@ class NyAnnonse_fragment: Fragment() {
                 lat = it.latitude.toDouble()
                 long = it.longitude.toDouble()
 
-
-                publiserbtn.setClickable(true)
 
                 Toast.makeText(
                     this.context,

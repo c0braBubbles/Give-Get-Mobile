@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.util.ArrayList
 
 //Konstruktør, tar en liste som innparameter slik at vi kan fylle den fra Firebase
+//Denne klassen er en modifisert versjon av en funnet på youtube, link ligger i kilder
 class RecyclerAdapter(private val titleList : MutableList<String>, private val detailsList : MutableList<String>
 ): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
@@ -30,12 +31,10 @@ class RecyclerAdapter(private val titleList : MutableList<String>, private val d
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-       // var itemImage: ImageView
         var itemTitle: TextView
         var itemDetail: TextView
 
         init {
-            //itemImage = itemView.findViewById(R.id.item_image)
             itemTitle = itemView.findViewById(R.id.item_title)
             itemDetail = itemView.findViewById(R.id.item_detailed)
         }
