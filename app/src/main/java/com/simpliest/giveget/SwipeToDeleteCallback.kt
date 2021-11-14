@@ -7,7 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-//Denne klassen er en tilpasset versjon av en klasse funnet på nettet
+//Denne klassen er en tilpasset versjon av en klasse funnet på nettet, link ligger i kilder.
 abstract class SwipeToDeleteCallback(context: Context?) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     private val deleteIcon = context?.let { ContextCompat.getDrawable(it, R.drawable.baseline_delete_white_24dp) }
