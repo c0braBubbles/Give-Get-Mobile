@@ -134,9 +134,9 @@ class MapsFragment : Fragment() {
                                 override fun onDataChange(dataSnapshot : DataSnapshot) {
 
                                     for (postSnapshot in dataSnapshot.children) {
-                                        if (postSnapshot.child("add_eier").value.toString() == samtale.add_eier &&
-                                            postSnapshot.child("annonse_tittel").value.toString() == samtale.annonse_tittel &&
-                                            postSnapshot.child("kontakteren").value.toString() == samtale.kontakteren
+                                        if (postSnapshot.child("add_eier").value.toString() === samtale.add_eier &&
+                                            postSnapshot.child("annonse_tittel").value.toString() === samtale.annonse_tittel &&
+                                            postSnapshot.child("kontakteren").value.toString() === samtale.kontakteren
                                         ) {
                                             Toast.makeText(context?.applicationContext, "Kan ikke starte samtale knyttet til denne annonsen", Toast.LENGTH_SHORT).show()
                                             //Toast.makeText(requireContext(), "Kan ikke starte samtale knyttet til denne annonsen", Toast.LENGTH_SHORT).show()
