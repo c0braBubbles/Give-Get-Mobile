@@ -158,9 +158,8 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                                                     for (postSnapshot in dataSnapshot.children) {
                                                         if (postSnapshot.child("add_eier").value.toString() == samtale.add_eier &&
                                                                 postSnapshot.child("annonse_tittel").value.toString() == samtale.annonse_tittel &&
-                                                                postSnapshot.child("kontakteren").value.toString() == samtale.kontakteren ||
-                                                                postSnapshot.child("add_eier").value.toString() == samtale.kontakteren) {
-                                                                    
+                                                                postSnapshot.child("kontakteren").value.toString() == samtale.kontakteren) {
+
                                                             return
                                                         }
                                                     }
