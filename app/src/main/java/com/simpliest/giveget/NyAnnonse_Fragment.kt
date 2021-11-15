@@ -178,11 +178,10 @@ class NyAnnonse_fragment: Fragment() {
             if(it != null) {
                 lat = it.latitude.toDouble()
                 long = it.longitude.toDouble()
-
-
+            } else if(it == null) {
                 Toast.makeText(
                     this.context,
-                    lat.toString(),
+                    "Noe gikk galt. Klarte ikke hente posisjonen din",
                     Toast.LENGTH_SHORT
                 ).show()
             }

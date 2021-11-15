@@ -173,16 +173,10 @@ class Annonser_fragment : Fragment() {
             if(it != null) {
                 lat = it.latitude.toDouble()
                 long = it.longitude.toDouble()
-
-                Toast.makeText(
-                    this.context,
-                    lat.toString(),
-                    Toast.LENGTH_SHORT
-                ).show()
             } else if (it == null) {
                 Toast.makeText(
                     this.context,
-                    "noe gikk galt",
+                    "Noe gikk galt. Klarte ikke hente posisjonen din",
                     Toast.LENGTH_SHORT
                 ).show()
             }
