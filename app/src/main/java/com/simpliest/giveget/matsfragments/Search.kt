@@ -129,7 +129,7 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                                     val popupDialog = LayoutInflater.from(fragment.context).inflate(R.layout.marker_popup, null)
                                     val builder = AlertDialog.Builder(fragment.context).setView(popupDialog)
                                     builder.setTitle(markList[i].title)
-                                    builder.setMessage(markList[i].desc)
+                                    builder.setMessage(markList[i].desc + "\n \n" + markList[i].uname)
 
                                     //Henter profilbilde fra firebase storage
                                     val storageRef = FirebaseStorage.getInstance().reference.child("image/${markList[i].uid}")
