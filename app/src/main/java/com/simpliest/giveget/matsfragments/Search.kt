@@ -86,11 +86,12 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                 searchList.adapter = adapter
                 searchList.isVisible = false
 
+                val searchView = v.findViewById<SearchView>(R.id.search_view)
 
                 // søke-algoritme
-                search_view.setOnQueryTextListener(object: SearchView.OnQueryTextListener, androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener, androidx.appcompat.widget.SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String): Boolean {
-                        searchList.isVisible = search_view.hasFocus()
+                        searchList.isVisible = searchView.hasFocus()
                         if (tittelList.contains(query) || descList.contains(query)) {
                             adapter.filter.filter(query)
                         }
@@ -101,7 +102,7 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                         return false
                     }
                     override fun onQueryTextChange(newText: String): Boolean {
-                        searchList.isVisible = search_view.hasFocus()
+                        searchList.isVisible = searchView.hasFocus()
 
                         adapter.filter.filter(newText)
                         return false
@@ -245,7 +246,7 @@ class Search : Fragment(R.layout.fragment_dashboard) {
 
 
         return v
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        //return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
 }
