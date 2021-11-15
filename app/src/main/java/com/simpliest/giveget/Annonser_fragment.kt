@@ -79,7 +79,7 @@ class Annonser_fragment : Fragment() {
                 val description = snapshot.child("beskrivelse").value.toString()
                 val brukeridA = snapshot.child("brukerID").value.toString()
                 val annonseid = snapshot.child("id").value.toString()
-                if(brukeridA == brukerID) { //adder data fra db til to lister
+                if(brukeridA == brukerID) { //adder data fra db til tre lister
                     tittelList.add(title)
                     beskList.add(description)
                     idList.add(annonseid)
@@ -137,8 +137,6 @@ class Annonser_fragment : Fragment() {
              override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                  database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
                  val idAnnonse = idList.get(viewHolder.adapterPosition)
-                // val tittelAnnonse = tittelList.get(viewHolder.adapterPosition)
-                // Toast.makeText(context, "Annonse med Tittel: " +tittelAnnonse+ " ble slettet.", Toast.LENGTH_SHORT).show()
                  database.child(idAnnonse).setValue(null).addOnSuccessListener {
                      //Clearer arraylistene for gamle verdier før vi refresher
                      tittelList.clear()
