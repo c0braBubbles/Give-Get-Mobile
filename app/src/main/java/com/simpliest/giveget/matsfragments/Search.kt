@@ -88,8 +88,7 @@ class Search : Fragment(R.layout.fragment_dashboard) {
 
 
                 // søke-algoritme
-                search_view.setOnQueryTextListener(object: SearchView.OnQueryTextListener,
-                    androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                search_view.setOnQueryTextListener(object: SearchView.OnQueryTextListener, androidx.appcompat.widget.SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String): Boolean {
                         searchList.isVisible = search_view.hasFocus()
                         if (tittelList.contains(query) || descList.contains(query)) {
@@ -239,17 +238,14 @@ class Search : Fragment(R.layout.fragment_dashboard) {
 
             override fun onCancelled(databaseError: DatabaseError) {
                 Log.w(ContentValues.TAG, "postComments:onCancelled", databaseError.toException())
-                Toast.makeText(context, "Failed to load comments.",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Failed to load comments.", Toast.LENGTH_SHORT).show()
             }
-
-
         }
         database.addChildEventListener(childEventListener)
 
 
         return v
-        //return inflater.inflate(R.layout.fragment_search, container, false)
+        return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
 }

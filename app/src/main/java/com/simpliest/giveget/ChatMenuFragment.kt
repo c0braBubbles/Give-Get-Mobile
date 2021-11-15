@@ -64,7 +64,8 @@ class ChatMenuFragment : Fragment() {
 
                     }
 
-                    adapter = ChatRecyclerAdapter(requireActivity(), liste1, liste2)
+                    //adapter = ChatRecyclerAdapter(requireActivity(), liste1, liste2)
+                    adapter = context?.let { it1 -> ChatRecyclerAdapter(it1, liste1, liste2) }
                     rView.adapter = adapter
                 }
 
