@@ -111,7 +111,7 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                 })
 
 
-                search_list.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+                searchList.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
                     val selectedItemText = parent.getItemAtPosition(position)
 
                     for(i in markList.indices) {
