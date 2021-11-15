@@ -152,7 +152,7 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                                                 markList[i].title
                                             )
 
-                                            database.addValueEventListener(object : ValueEventListener {
+                                            database.addListenerForSingleValueEvent(object : ValueEventListener {
                                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
 
 

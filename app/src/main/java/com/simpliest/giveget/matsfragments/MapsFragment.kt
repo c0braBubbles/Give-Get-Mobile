@@ -131,7 +131,7 @@ class MapsFragment : Fragment() {
 
                             var i = 0
 
-                            //addListenerForSingleValueEvent  addValueEventListener
+
                             database.addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onDataChange(dataSnapshot : DataSnapshot) {
                                     for (postSnapshot in dataSnapshot.children) {
