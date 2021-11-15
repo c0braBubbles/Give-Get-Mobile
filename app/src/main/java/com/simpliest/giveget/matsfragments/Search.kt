@@ -32,6 +32,7 @@ import com.simpliest.giveget.*
 import com.simpliest.giveget.R
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.marker_popup.view.*
 import org.w3c.dom.Comment
 import java.io.File
@@ -86,12 +87,12 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                 searchList.adapter = adapter
                 searchList.isVisible = false
 
-                val searchView = v.findViewById<SearchView>(R.id.search_view)
+                //val searchView = v.findViewById<SearchView>(R.id.search_view)
 
                 // søke-algoritme
-                searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener, androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                v.search_view.setOnQueryTextListener(object: SearchView.OnQueryTextListener, androidx.appcompat.widget.SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String): Boolean {
-                        searchList.isVisible = searchView.hasFocus()
+                        searchList.isVisible = v.search_view.hasFocus()
                         if (tittelList.contains(query) || descList.contains(query)) {
                             adapter.filter.filter(query)
                         }
@@ -102,7 +103,7 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                         return false
                     }
                     override fun onQueryTextChange(newText: String): Boolean {
-                        searchList.isVisible = searchView.hasFocus()
+                        searchList.isVisible = v.search_view.hasFocus()
 
                         adapter.filter.filter(newText)
                         return false
