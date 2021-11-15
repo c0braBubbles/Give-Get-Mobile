@@ -139,8 +139,7 @@ class MapsFragment : Fragment() {
                                             postSnapshot.child("kontakteren").value.toString() == samtale.kontakteren
                                         ) {
 
-                                            Toast.makeText(context, "Kan ikke starte samtale knyttet til denne annonsen",
-                                                Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(requireContext(), "Kan ikke starte samtale knyttet til denne annonsen", Toast.LENGTH_SHORT).show()
                                             return
                                         }
                                     }
