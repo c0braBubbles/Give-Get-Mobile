@@ -137,8 +137,8 @@ class Annonser_fragment : Fragment() {
              override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                  database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
                  val idAnnonse = idList.get(viewHolder.adapterPosition)
-                 val tittelAnnonse = tittelList.get(viewHolder.adapterPosition)
-                 Toast.makeText(context, "Annonse med Tittel: " +tittelAnnonse+ " ble slettet.", Toast.LENGTH_SHORT).show()
+//                 val tittelAnnonse = tittelList.get(viewHolder.adapterPosition)
+                // Toast.makeText(context, "Annonse med Tittel: " +tittelAnnonse+ " ble slettet.", Toast.LENGTH_SHORT).show()
                  database.child(idAnnonse).setValue(null).addOnSuccessListener {
                      //Clearer arraylistene for gamle verdier før vi refresher
                      tittelList.clear()
