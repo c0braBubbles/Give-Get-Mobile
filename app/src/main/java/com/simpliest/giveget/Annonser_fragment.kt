@@ -1,6 +1,7 @@
 package com.simpliest.giveget
 
 import android.content.ContentValues
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -55,6 +56,9 @@ class Annonser_fragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
+        // Låser til portrett-modus
+        getActivity()?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_annonser, container, false)
 

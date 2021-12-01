@@ -3,6 +3,7 @@ package com.simpliest.giveget
 import android.app.Activity.RESULT_OK
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -40,6 +41,10 @@ class Profil_fragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Låser til portrett-modus
+        getActivity()?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
+
         // Inflate the layout for this fragment
         val v =  inflater.inflate(R.layout.fragment_profil, container, false)
 

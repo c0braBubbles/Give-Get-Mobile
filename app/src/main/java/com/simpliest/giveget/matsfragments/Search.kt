@@ -2,6 +2,7 @@ package com.simpliest.giveget.matsfragments
 
 import android.app.AlertDialog
 import android.content.ContentValues
+import android.content.pm.ActivityInfo
 import android.graphics.BitmapFactory
 import android.nfc.Tag
 import android.os.Bundle
@@ -53,6 +54,13 @@ class Search : Fragment(R.layout.fragment_dashboard) {
     ): View? {
 
         val v = inflater.inflate(R.layout.fragment_search, container, false)
+
+
+        /* Låser dette fragmentet til å være i portrett-modus. Dette er fordi det kun er
+        hennsiktsmessig med landskaps-modus på kartet, og etter man går fra kartet til f.eks. søk,
+        så vil applikasjonen fortsatt være i landskapsmodus. Derfor må det låses at med en gang du går
+        fra kartet at den låses tilbake til portrett. */
+        getActivity()?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
 
         val tittelList: MutableList<String> = ArrayList()

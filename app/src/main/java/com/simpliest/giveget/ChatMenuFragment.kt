@@ -1,5 +1,6 @@
 package com.simpliest.giveget
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -36,6 +37,9 @@ class ChatMenuFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        // Låser til portrett-modus
+        getActivity()?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
         liste1.clear()
         liste2.clear()

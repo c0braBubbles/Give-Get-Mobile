@@ -1,5 +1,6 @@
 package com.simpliest.giveget.matsfragments
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,6 +23,10 @@ class Dashboard : Fragment(R.layout.fragment_dashboard) {
         inflater: LayoutInflater, container: ViewGroup?,
         SavedInstance: Bundle?
     ): View? {
+
+        // Låser opp modusen så du kan sette telefonen i landskaps-modus
+        getActivity()?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR)
+
         return inflater.inflate(R.layout.fragment_dashboard, container, false)
     }
 

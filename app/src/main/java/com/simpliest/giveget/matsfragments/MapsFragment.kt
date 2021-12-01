@@ -2,6 +2,7 @@ package com.simpliest.giveget.matsfragments
 
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
+import android.content.pm.ActivityInfo
 import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -58,6 +59,9 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
+
+        // Låser opp modusen så du kan sette telefonen i landskaps-modus
+        getActivity()?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR)
 
         var markList = ArrayList<Marker>()
         database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
