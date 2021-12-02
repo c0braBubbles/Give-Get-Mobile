@@ -67,7 +67,7 @@ class MapsFragment : Fragment() {
         database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")    // RTDB referanse
 
         val childEventListener = object : ChildEventListener {
-            // Når noe er lagt til i DB-en vil denne intreffe
+            // Når noe er lagt til i DB-en vil denne intreffe:
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d(TAG, "onChildAdded:" + dataSnapshot.key!!)
 
@@ -106,7 +106,8 @@ class MapsFragment : Fragment() {
                 }
 
 
-                // markør onclick
+                /* Markør onclick. Tips for å gi hver markør egen onclick er fra stackoverflow
+                (se litteraturliste i rapport), men er endret såpass at meste parten er egen-kode */
                 googleMap!!.setOnMarkerClickListener { marker ->
                     var bnavn: String = ""
                     for(i in markList.indices) {
@@ -179,7 +180,8 @@ class MapsFragment : Fragment() {
                 }
             }
 
-            // Resterende firebase funksjoner blir ikke brukt
+            /* Resterende firebase funksjoner blir ikke brukt, men måtte være implementert da det
+            er et abstrakt objekt. Error vil forekomme om de ble klippet vekk */
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d(TAG, "onChildChanged: ${dataSnapshot.key}")

@@ -57,9 +57,15 @@ class signupFragment : Fragment() {
         val passordFelt = v.findViewById<EditText>(R.id.editPasswordField)
         val passordFelt2 = v.findViewById<EditText>(R.id.editPassword2Field)
 
-        // "lag bruker" knappen sin onclick
+        /* "Lag bruker" knappen sin onclick-metode. */
         bt2.setOnClickListener {
+
             if(passordFelt.text.toString() == passordFelt2.text.toString()) {
+
+                /* Denne kodebiten er tungt inspirert av en video fra Firebase. Det er ikke mange
+                måter en kan registrere en bruker på i Firebase, så jeg gjør ikke krav på at dette
+                er min 100% egen kode. */
+
                 when {
                     // Dette sjekker om du IKKE har fylt inn email. Da vil det komme en Toast melding
                     TextUtils.isEmpty(emailFelt.text.toString().trim() { it <= ' ' }) -> {
@@ -102,6 +108,8 @@ class signupFragment : Fragment() {
 
                                         val userInfo = User(nameInsert, usernameInsert, emailInsert)
 
+                                        /* Dette er også kode funnet på Firebase sine dokumentasjonssider,
+                                        men ikke samme som resten av registreringen. Det er flettet inn. */
                                         FirebaseDatabase.getInstance().getReference("mobilBruker")
                                             .child(
                                                 firebaseUser.uid
