@@ -128,6 +128,7 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                             val fragment = MapsFragment()
                             val fm: FragmentManager = (context as AppCompatActivity).supportFragmentManager
                             fm.beginTransaction().replace(R.id.secondLayout, fragment).commit()
+
                             fragment.callback = OnMapReadyCallback {googleMap ->
                                 val newMarker = LatLng(markList[i].lat, markList[i].long)
                                 googleMap.addMarker(MarkerOptions().position(newMarker).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
@@ -176,7 +177,6 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                                                     database.push().setValue(samtale).addOnSuccessListener {
                                                         dialog.dismiss()
                                                         val fragment2 = chatFragment(markList[i].uname, markList[i].title)
-                                                        //val fm: FragmentManager = (fragment.context as AppCompatActivity).supportFragmentManager
                                                         fm.beginTransaction().replace(R.id.secondLayout, fragment2).commit()
                                                     }.addOnFailureListener {
                                                         Toast.makeText(context, "Noe gikk galt når du prøvde å starte samtale med " + samtale.add_eier, Toast.LENGTH_LONG)
@@ -197,16 +197,8 @@ class Search : Fragment(R.layout.fragment_dashboard) {
                                     true
                                 }
                             }
-
                         }
                     }
-
-                    /*val fragment = MapsFragment()
-                    fragment.callback = OnMapReadyCallback {googleMap ->
-
-                    }
-                    val fm: FragmentManager = (context as AppCompatActivity).supportFragmentManager
-                    fm.beginTransaction().replace(R.id.secondLayout, fragment).commit()*/
                 }
             }
 
@@ -255,7 +247,6 @@ class Search : Fragment(R.layout.fragment_dashboard) {
 
 
         return v
-        //return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
 }

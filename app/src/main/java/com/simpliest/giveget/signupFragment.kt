@@ -35,6 +35,8 @@ class signupFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.signup_fragment, container, false)
+
+
         //Dette er for at brukeren skal kunne gå fra signup-fragmentet til login-fragmentet
         val bt = v.findViewById<Button>(R.id.mLoginBtn)
         bt.setOnClickListener {
@@ -46,20 +48,16 @@ class signupFragment : Fragment() {
 
         
         val bt2 = v.findViewById<Button>(R.id.createAccBtn)
-        /*bt2.setOnClickListener {
-            val thirdFragment = chatFragment()
-            val transaction: FragmentTransaction = parentFragmentManager!!.beginTransaction()
-            transaction.replace(R.id.mainlayout,thirdFragment)
-            transaction.commit()
-        }*/
 
 
+        // Feltene som må bli fylt ut for å registrere:
         val emailFelt = v.findViewById<EditText>(R.id.editEmailField)
         val nameFelt = v.findViewById<EditText>(R.id.editNameField)
         val usernameFelt = v.findViewById<EditText>(R.id.editUsernameField)
         val passordFelt = v.findViewById<EditText>(R.id.editPasswordField)
         val passordFelt2 = v.findViewById<EditText>(R.id.editPassword2Field)
 
+        // "lag bruker" knappen sin onclick
         bt2.setOnClickListener {
             if(passordFelt.text.toString() == passordFelt2.text.toString()) {
                 when {
@@ -85,6 +83,7 @@ class signupFragment : Fragment() {
                         val email: String = emailFelt.text.toString().trim { it <= ' ' }
                         val passord: String = passordFelt.text.toString().trim { it <= ' ' }
 
+                        // Her lages det en bruker i Auth-en
                         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, passord)
                             .addOnCompleteListener(
                                 OnCompleteListener<AuthResult> { task ->
@@ -116,15 +115,7 @@ class signupFragment : Fragment() {
                                             intent.putExtra("user_name", usernameInsert)
                                             startActivity(intent)
                                         }
-
-
-                                        /*val intent = Intent(this.context, MainActivity2::class.java)
-                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // hindrer brukeren å klikke seg tilbake
-                                    intent.putExtra("user_id", firebaseUser.uid)
-                                    intent.putExtra("email_id", email)
-                                    startActivity(intent)*/
-                                        //finish()
-                                    } else {
+                                    } else {            // hvis registreringen failer
                                         Toast.makeText(
                                             this.context,
                                             task.exception!!.message.toString(),

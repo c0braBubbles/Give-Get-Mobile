@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
             android:textColor="@color/whiteSmoke"
-            android:text="Hva ønsker du? \nHva trenger du ikke lenger? \nDet finner du her!"
+            android:text="Norges nye markedsplass, rett i lomma!"
             android:textAlignment="center"
             android:lineHeight="70dp"
             android:letterSpacing="0.1"

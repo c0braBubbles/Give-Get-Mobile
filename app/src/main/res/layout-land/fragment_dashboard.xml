@@ -8,6 +8,8 @@
     tools:context=".matsfragments.Dashboard"
     android:orientation="vertical">
 
+    <!-- Dashboard for landskaps-modus. Lik struktur som på portrett-versjonen -->
+
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
