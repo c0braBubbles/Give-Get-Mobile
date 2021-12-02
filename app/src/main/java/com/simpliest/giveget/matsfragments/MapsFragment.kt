@@ -63,10 +63,11 @@ class MapsFragment : Fragment() {
         // Låser opp modusen så du kan sette telefonen i landskaps-modus
         getActivity()?.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR)
 
-        var markList = ArrayList<Marker>()
-        database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")
+        var markList = ArrayList<Marker>()      // Liste for alle markører
+        database = FirebaseDatabase.getInstance().getReference("AnnonseAndroid")    // RTDB referanse
 
         val childEventListener = object : ChildEventListener {
+            // Når noe er lagt til i DB-en vil denne intreffe
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d(TAG, "onChildAdded:" + dataSnapshot.key!!)
 
@@ -77,10 +78,12 @@ class MapsFragment : Fragment() {
                 val add_long = dataSnapshot.child("long").value as Double
                 val brukerID = dataSnapshot.child("brukerID").value.toString()
                 val brukernavn = dataSnapshot.child("brukernavn").value.toString()
+                // Objekt for å ta vare på alle verdiene til en annonse:
                 val marker = Marker(add_lat, add_long, add_title, add_descr, brukerID, brukernavn, add_type)
                 markList += marker
 
 
+                // Itererer gjennom lista og legger til på kart
                 for(i in markList.indices) {
                     val gmark = googleMap!!.addMarker(
                         MarkerOptions().position(
@@ -90,9 +93,11 @@ class MapsFragment : Fragment() {
                             )
                         ).title(markList[i].desc + "\n \n"  + markList[i].uname)
                     )
+                    // improviserer for å ta vare på uid tittel, da gmark er et eget objekt i google
                     gmark.snippet = markList[i].uid
                     gmark.tag = markList[i].title
 
+                    // setter farge på markøren
                     if(markList[i].type == "Tilbud") {
                         gmark.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                     } else if(markList[i].type == "Etterspørsel") {
@@ -101,6 +106,7 @@ class MapsFragment : Fragment() {
                 }
 
 
+                // markør onclick
                 googleMap!!.setOnMarkerClickListener { marker ->
                     var bnavn: String = ""
                     for(i in markList.indices) {
@@ -109,7 +115,7 @@ class MapsFragment : Fragment() {
                         }
                     }
 
-
+                    // bygger popup. popup boksen er en vanlig alertbox som har vår egen layout
                     val popupDialog = LayoutInflater.from(context).inflate(R.layout.marker_popup, null)
                     val aBuilder = AlertDialog.Builder(context).setView(popupDialog)
                     aBuilder.setTitle("${marker.tag}")
@@ -131,11 +137,11 @@ class MapsFragment : Fragment() {
                         database = FirebaseDatabase.getInstance().getReference("Samtaler")
 
                         FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid.toString()).get().addOnSuccessListener {
-                            val samtale = Samtale(bnavn, it.child("username").value.toString(), marker.tag as String)
+                            val samtale = Samtale(bnavn, it.child("username").value.toString(), marker.tag as String) // RTDB "tabell" for samtale
 
                             var i = 0
 
-
+                            // lager samtale som sendes til DB for å registreres også tar deg til chat-fragment
                             database.addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onDataChange(dataSnapshot : DataSnapshot) {
                                     for (postSnapshot in dataSnapshot.children) {
@@ -173,6 +179,7 @@ class MapsFragment : Fragment() {
                 }
             }
 
+            // Resterende firebase funksjoner blir ikke brukt
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d(TAG, "onChildChanged: ${dataSnapshot.key}")
@@ -218,6 +225,8 @@ class MapsFragment : Fragment() {
         database.addChildEventListener(childEventListener)
 
 
+        // "Vanlig måte å legge til markør på kartet. Kom med fragmentet. Kjekt å gå i tilfelle jeg...
+        // glemmer hvordan man gjorde enkelte ting
         /*val sydney = LatLng(59.148066, 9.692892)
         googleMap.addMarker(MarkerOptions().position(sydney).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))

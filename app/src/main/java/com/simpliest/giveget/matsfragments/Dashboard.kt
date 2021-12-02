@@ -13,7 +13,7 @@ import com.simpliest.giveget.R
 import kotlinx.android.synthetic.*
 
 
-//
+
 class Dashboard : Fragment(R.layout.fragment_dashboard) {
 
     lateinit var mapFragment : SupportMapFragment

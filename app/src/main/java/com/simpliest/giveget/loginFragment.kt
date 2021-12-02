@@ -32,6 +32,7 @@ class loginFragment : Fragment() {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.login_fragment, container, false)
 
+        // Hvis du finner ut du heller vil lage ny bruker
         val bt = v.findViewById<Button>(R.id.mCreateAccBtn)
         bt.setOnClickListener {
             val secondFragment = signupFragment()
@@ -46,6 +47,7 @@ class loginFragment : Fragment() {
         val passordFelt = v.findViewById<EditText>(R.id.loginPassword)
         val btnLogin = v.findViewById<Button>(R.id.loginBtn)
 
+        // Helt lik som registrer-metoden, minus RTDB-delen og "signin" i stedet for "create"
         btnLogin.setOnClickListener {
             when {
                 // Dette sjekker om du IKKE har fylt inn email. Da vil det komme en Toast melding
@@ -69,6 +71,8 @@ class loginFragment : Fragment() {
                     val email: String = emailFelt.text.toString().trim {it <= ' '}
                     val passord: String = passordFelt.text.toString().trim {it <= ' '}
 
+                    /* Her logges du inn, hvor i registrer ville det stått "create user with email
+                    and password". Ellers er den helt lik. */
                     FirebaseAuth.getInstance().signInWithEmailAndPassword(email, passord)
                         .addOnCompleteListener(
                             OnCompleteListener<AuthResult> { task ->

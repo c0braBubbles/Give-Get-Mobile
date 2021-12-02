@@ -39,8 +39,6 @@ class MainActivity2 : AppCompatActivity() {
     private val fragmentChatMenu = ChatMenuFragment() //Dette var chatFragment() tidligere ChatMenuFragment()
     private val profileFragment = Profil_fragment()
     private val addsFragment = Annonser_fragment()
-    //private val newAddFragment = NyAnnonse_fragment()
-    //private val chatMenuFragment = ChatMenuFragment()
 
     private lateinit var binding: ActivityMain2Binding
 
@@ -53,11 +51,6 @@ class MainActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
-
-
-        // kall på posisjon stuff (bricked)
-        //fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        //checkLocationPermissions()
 
 
         binding = ActivityMain2Binding.inflate(layoutInflater)
@@ -79,14 +72,6 @@ class MainActivity2 : AppCompatActivity() {
         // Setter dashboard fragmentet på (kart)
         val fm: FragmentManager = supportFragmentManager
         fm.beginTransaction().replace(R.id.secondLayout, dashboardFragment).commit()
-
-
-        val userID = intent.getStringExtra("user_id").toString()
-        val emailID = intent.getStringExtra("email_id").toString()
-        /*val builder = AlertDialog.Builder(this)
-        builder.setTitle("Test")
-        builder.setMessage("user id: $emailID")
-        builder.show()*/
     }
 
 
