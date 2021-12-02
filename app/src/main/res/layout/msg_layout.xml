@@ -7,8 +7,6 @@
     android:layout_marginHorizontal="5dp"
     app:cardElevation="0dp"
     android:background="@color/almostGray"
-
-
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout

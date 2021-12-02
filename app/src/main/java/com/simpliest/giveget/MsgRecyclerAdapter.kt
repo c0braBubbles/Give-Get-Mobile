@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MsgRecyclerAdapter(private val senderList : MutableList<String>, private val receiverList: MutableList<String>)
     : RecyclerView.Adapter<MsgRecyclerAdapter.ViewHolder>() {
-
+    //"Mal" for klassen har blitt hentet fra nettet, se mer om dette i kildehenvisning i dokumentasjon
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -20,7 +20,6 @@ class MsgRecyclerAdapter(private val senderList : MutableList<String>, private v
 
     override fun onBindViewHolder(holder: MsgRecyclerAdapter.ViewHolder, position: Int) {
         holder.itemSender.text = senderList[position]
-        //holder.itemSender.setPadding(8,8,8,8)
         holder.itemReceiver.text = receiverList[position]
         if (senderList[position] != "")
             holder.itemSender.setPadding(15,15,15,15)

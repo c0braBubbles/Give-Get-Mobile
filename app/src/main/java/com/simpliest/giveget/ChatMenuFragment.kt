@@ -51,7 +51,7 @@ class ChatMenuFragment : Fragment() {
 
         FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid.toString()).get().addOnSuccessListener {
             currentUsername = it.child("username").value.toString()
-
+            //Listener som henter ned data fra realtime databasen
             val childEventListener = object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     val eier = snapshot.child("add_eier").value.toString()
@@ -68,7 +68,6 @@ class ChatMenuFragment : Fragment() {
 
                     }
 
-                    //adapter = ChatRecyclerAdapter(requireActivity(), liste1, liste2)
                     adapter = context?.let { it1 -> ChatRecyclerAdapter(it1, liste1, liste2) }
                     rView.adapter = adapter
                 }

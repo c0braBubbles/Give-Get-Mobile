@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class ChatRecyclerAdapter(private val context: Context, private val nameList : MutableList<String>, private val adList : MutableList<String>)
     : RecyclerView.Adapter<ChatRecyclerAdapter.ViewHolder>() {
-
+    //"Mal" for klassen har blitt hentet fra nettet, se mer om dette i kildehenvisning i dokumentasjon
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -36,12 +36,10 @@ class ChatRecyclerAdapter(private val context: Context, private val nameList : M
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        var itemImage: ImageView
         var itemName: TextView
         var itemAd: TextView
 
         init {
-            itemImage = itemView.findViewById(R.id.chat_card_image)
             itemName = itemView.findViewById(R.id.chat_card_name)
             itemAd = itemView.findViewById(R.id.chat_card_ad)
 

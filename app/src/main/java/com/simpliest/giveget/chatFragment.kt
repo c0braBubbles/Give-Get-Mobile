@@ -27,8 +27,6 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
     lateinit var currentUsername : String
 
 
-    //val listenMin: MutableList<String> = ArrayList()
-
     private lateinit var database : DatabaseReference
 
 
@@ -53,7 +51,7 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
 
         val sendBtn = v.findViewById<Button>(R.id.sendMsgBtn)
         val sendTxt = v.findViewById<EditText>(R.id.writeMsgField)
-
+        //Listener for å hente ned data fra realtime databasen
         FirebaseDatabase.getInstance().getReference("mobilBruker/"+currentUserUid.toString()).get().addOnSuccessListener {
             currentUsername = it.child("username").value.toString()
 
@@ -98,6 +96,7 @@ class chatFragment(val samtalePartner: String, val annonseNavn: String) : Fragme
             FirebaseDatabase.getInstance().getReference("mobilMelding")
                 .addChildEventListener(childEventListener)
         }
+        //Sender opp melding til firebase realtime
         sendBtn.setOnClickListener {
             val melding = sendTxt.text.toString()
             if ( melding.trim().isEmpty() ) return@setOnClickListener
